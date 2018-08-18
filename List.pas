@@ -19,7 +19,8 @@ type
     FDConnectionSQLite: TFDConnection;
     FDTableProducts: TFDTable;
     DBGridProducts: TDBGrid;
-    Button1: TButton;
+    ButtonPushRegister: TButton;
+    procedure ButtonPushRegisterClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -32,5 +33,17 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Register;
+
+procedure TFormList.ButtonPushRegisterClick(Sender: TObject);
+begin
+  with TFormRegister.Create(nil) do
+    try
+      ShowModal;
+    finally
+      Free;
+    end;
+end;
 
 end.

@@ -72,13 +72,14 @@ object FormList: TFormList
         Visible = True
       end>
   end
-  object Button1: TButton
+  object ButtonPushRegister: TButton
     Left = 504
     Top = 479
     Width = 255
     Height = 44
     Caption = 'Cadastrar novo produto'
     TabOrder = 1
+    OnClick = ButtonPushRegisterClick
   end
   object DataSourceProducts: TDataSource
     AutoEdit = False

@@ -4,7 +4,7 @@ object FormRegister: TFormRegister
   BorderIcons = []
   Caption = 'Cadastro de produto'
   ClientHeight = 295
-  ClientWidth = 589
+  ClientWidth = 475
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,4 +15,35 @@ object FormRegister: TFormRegister
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
+  object Label1: TLabel
+    Left = 8
+    Top = 8
+    Width = 31
+    Height = 13
+    Caption = 'Nome:'
+  end
+  object Label2: TLabel
+    Left = 8
+    Top = 48
+    Width = 50
+    Height = 13
+    Caption = 'Descri'#231#227'o:'
+  end
+  object ButtonRegister: TButton
+    Left = 287
+    Top = 232
+    Width = 180
+    Height = 55
+    Caption = 'Cadastrar'
+    TabOrder = 0
+  end
+  object ButtonCancel: TButton
+    Left = 166
+    Top = 232
+    Width = 115
+    Height = 55
+    Caption = 'Cancelar'
+    TabOrder = 1
+    OnClick = ButtonCancelClick
+  end
 end

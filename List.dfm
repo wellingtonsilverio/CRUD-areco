@@ -16,22 +16,22 @@ object FormList: TFormList
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 24
-    Top = 24
-    Width = 121
-    Height = 29
+    Left = 8
+    Top = 22
+    Width = 130
+    Height = 31
     Caption = 'PRODUTOS'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -24
+    Font.Height = -26
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
   end
-  object DBGrid1: TDBGrid
-    Left = 24
+  object DBGridProducts: TDBGrid
+    Left = 8
     Top = 59
-    Width = 721
+    Width = 751
     Height = 414
     DataSource = DataSourceProducts
     TabOrder = 0
@@ -40,10 +40,50 @@ object FormList: TFormList
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'id'
+        Width = 66
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'name'
+        Width = 134
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'descr'
+        Width = 305
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'stock'
+        Width = 101
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'price'
+        Width = 92
+        Visible = True
+      end>
+  end
+  object Button1: TButton
+    Left = 504
+    Top = 479
+    Width = 255
+    Height = 44
+    Caption = 'Cadastrar novo produto'
+    TabOrder = 1
   end
   object DataSourceProducts: TDataSource
     AutoEdit = False
     DataSet = FDTableProducts
+    Enabled = False
     Left = 688
     Top = 352
   end
@@ -58,6 +98,7 @@ object FormList: TFormList
   end
   object FDTableProducts: TFDTable
     Active = True
+    AutoCalcFields = False
     IndexFieldNames = 'id'
     Connection = FDConnectionSQLite
     UpdateOptions.UpdateTableName = 'products'

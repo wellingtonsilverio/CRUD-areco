@@ -18,7 +18,8 @@ type
     DataSourceProducts: TDataSource;
     FDConnectionSQLite: TFDConnection;
     FDTableProducts: TFDTable;
-    DBGrid1: TDBGrid;
+    DBGridProducts: TDBGrid;
+    Button1: TButton;
   private
     { Private declarations }
   public

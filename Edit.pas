@@ -24,8 +24,10 @@ type
     ButtonExit: TButton;
     FDConnectionSQLite: TFDConnection;
     FDQuerySelect: TFDQuery;
+    FDQueryProductEdit: TFDQuery;
     procedure ButtonExitClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure ButtonEditClick(Sender: TObject);
   private
     class procedure closeAndRefresh();
   public
@@ -40,6 +42,22 @@ implementation
 {$R *.dfm}
 
 uses List;
+
+procedure TFormEdit.ButtonEditClick(Sender: TObject);
+begin
+  FDConnectionSQLite.Connected := True;
+
+  FDQueryProductEdit.Params.ParamByName('id').Value := Id;
+  FDQueryProductEdit.Params.ParamByName('name').Value := EditName.Text;
+  FDQueryProductEdit.Params.ParamByName('descr').Value := RichEditDescr.Text;
+  FDQueryProductEdit.Params.ParamByName('price').Value := EditPrice.Text;
+  FDQueryProductEdit.ExecSQL;
+
+  FDConnectionSQLite.Connected := False;
+
+  showMessage('Produto editado com sucesso!');
+  closeAndRefresh();
+end;
 
 procedure TFormEdit.ButtonExitClick(Sender: TObject);
 begin
@@ -63,9 +81,9 @@ begin
   FDQuerySelect.Params.ParamByName('id').Value := Id;
   FDQuerySelect.Open;
 
-  EditName.Text := FDQuerySelect.FieldByName('name').asString;
-  RichEditDescr.Text := FDQuerySelect.FieldByName('descr').asString;
-  EditPrice.Text := FDQuerySelect.FieldByName('price').asString;
+  EditName.Text := FDQuerySelect.FieldByName('name').Value;
+  RichEditDescr.Text := FDQuerySelect.FieldByName('descr').Value;
+  EditPrice.Text := FDQuerySelect.FieldByName('price').Value;
 
   FDConnectionSQLite.Connected := False;
 end;

@@ -38,26 +38,13 @@ object FormList: TFormList
     TabOrder = 0
     OnClick = ButtonPushRegisterClick
   end
-  object StringGridProduct: TStringGrid
-    Left = 0
-    Top = 59
-    Width = 751
-    Height = 414
-    TabOrder = 1
-    ColWidths = (
-      64
-      203
-      289
-      86
-      80)
-  end
   object ButtonEdit: TButton
     Left = 8
     Top = 479
     Width = 145
     Height = 44
     Caption = 'Editar selecionado'
-    TabOrder = 2
+    TabOrder = 1
     OnClick = ButtonEditClick
   end
   object ButtonDelete: TButton
@@ -66,21 +53,45 @@ object FormList: TFormList
     Width = 114
     Height = 44
     Caption = 'Exluir selecionado'
-    TabOrder = 3
+    TabOrder = 2
     OnClick = ButtonDeleteClick
+  end
+  object StringGridProduct: TStringGrid
+    Left = 0
+    Top = 59
+    Width = 751
+    Height = 414
+    TabOrder = 3
+    ColWidths = (
+      64
+      203
+      289
+      86
+      80)
+  end
+  object FDQueryProductDelete: TFDQuery
+    Connection = FDConnectionSQLite
+    SQL.Strings = (
+      'DELETE FROM `products`'
+      'WHERE `id` = :id')
+    Left = 688
+    Top = 352
+    ParamData = <
+      item
+        Name = 'ID'
+        ParamType = ptInput
+      end>
   end
   object FDConnectionSQLite: TFDConnection
     Params.Strings = (
       'Database=C:\GitHub\CRUD-areco\DB.sqlite3'
       'LockingMode=Normal'
-      'Synchronous=Full'
-      'StringFormat=Unicode'
       'DriverID=SQLite')
+    Connected = True
     Left = 688
-    Top = 408
+    Top = 416
   end
   object FDTableProducts: TFDTable
-    AutoCalcFields = False
     IndexFieldNames = 'id'
     Connection = FDConnectionSQLite
     UpdateOptions.UpdateTableName = 'products'
@@ -91,7 +102,6 @@ object FormList: TFormList
       FieldName = 'id'
       Origin = 'id'
       ProviderFlags = [pfInWhere, pfInKey]
-      ReadOnly = True
     end
     object FDTableProductsname: TWideMemoField
       FieldName = 'name'
@@ -107,22 +117,9 @@ object FormList: TFormList
       FieldName = 'stock'
       Origin = 'stock'
     end
-    object FDTableProductsprice: TFloatField
+    object FDTableProductsprice: TIntegerField
       FieldName = 'price'
       Origin = 'price'
     end
-  end
-  object FDQueryProductDelete: TFDQuery
-    Connection = FDConnectionSQLite
-    SQL.Strings = (
-      'DELETE FROM `products`'
-      'WHERE `id` = :id')
-    Left = 688
-    Top = 352
-    ParamData = <
-      item
-        Name = 'ID'
-        ParamType = ptInput
-      end>
   end
 end

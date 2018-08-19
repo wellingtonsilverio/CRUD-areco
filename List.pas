@@ -15,18 +15,18 @@ uses
 type
   TFormList = class(TForm)
     Label1: TLabel;
-    FDConnectionSQLite: TFDConnection;
-    FDTableProducts: TFDTable;
     ButtonPushRegister: TButton;
+    FDQueryProductDelete: TFDQuery;
+    ButtonEdit: TButton;
+    ButtonDelete: TButton;
+    FDConnectionSQLite: TFDConnection;
+    StringGridProduct: TStringGrid;
+    FDTableProducts: TFDTable;
     FDTableProductsid: TFDAutoIncField;
     FDTableProductsname: TWideMemoField;
     FDTableProductsdescr: TWideMemoField;
     FDTableProductsstock: TIntegerField;
-    FDTableProductsprice: TFloatField;
-    StringGridProduct: TStringGrid;
-    FDQueryProductDelete: TFDQuery;
-    ButtonEdit: TButton;
-    ButtonDelete: TButton;
+    FDTableProductsprice: TIntegerField;
     procedure ButtonPushRegisterClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ButtonEditClick(Sender: TObject);
@@ -134,11 +134,11 @@ Begin
   i := 1;
   while not FDTableProducts.eof do
   begin
-    StringGridProduct.cells[0, i] := FDTableProducts.FieldByName('id').asString;
+    StringGridProduct.cells[0, i] := FDTableProducts.FieldByName('id').AsInteger.ToString;
     StringGridProduct.cells[1, i] := FDTableProducts.FieldByName('name').asString;
     StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').asString;
     StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asString;
-    StringGridProduct.cells[4, i] := FDTableProducts.FieldByName('price').asString;
+    StringGridProduct.cells[4, i] := FDTableProducts.FieldByName('price').asFloat.ToString;
 
     FDTableProducts.next;
     i := i + 1;

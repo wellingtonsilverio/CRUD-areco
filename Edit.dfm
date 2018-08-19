@@ -72,6 +72,7 @@ object FormEdit: TFormEdit
     Height = 53
     Caption = 'Editar'
     TabOrder = 3
+    OnClick = ButtonEditClick
   end
   object ButtonExit: TButton
     Left = 280
@@ -102,6 +103,32 @@ object FormEdit: TFormEdit
         Name = 'ID'
         ParamType = ptInput
         Value = Null
+      end>
+  end
+  object FDQueryProductEdit: TFDQuery
+    Connection = FDConnectionSQLite
+    SQL.Strings = (
+      'UPDATE `products`'
+      'SET `name` = :name, `descr` = :descr, `price` = :price'
+      'WHERE `id` = :id;')
+    Left = 504
+    Top = 160
+    ParamData = <
+      item
+        Name = 'NAME'
+        ParamType = ptInput
+      end
+      item
+        Name = 'DESCR'
+        ParamType = ptInput
+      end
+      item
+        Name = 'PRICE'
+        ParamType = ptInput
+      end
+      item
+        Name = 'ID'
+        ParamType = ptInput
       end>
   end
 end

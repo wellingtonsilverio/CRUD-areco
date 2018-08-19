@@ -24,6 +24,7 @@ type
     FDTableProductsstock: TIntegerField;
     FDTableProductsprice: TFloatField;
     StringGridProduct: TStringGrid;
+    FDQueryProductDelete: TFDQuery;
     procedure ButtonPushRegisterClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
 
@@ -102,8 +103,8 @@ Begin
     //Button of Edit
     Button := TButton.Create(StringGridProduct);
     Button.BoundsRect := R1;
-    Button.Caption := 'Editar';
-    Button.Tag := FDTableProducts.FieldByName('id').AsInteger;
+    Button.Caption := 'I';
+    Button.Tag := strtoint(FDTableProducts.FieldByName('id').asString);
     Button.ControlStyle := [csClickEvents];
     Button.OnClick := GridButtonEditClick;
     Button.Parent := StringGridProduct;
@@ -114,7 +115,7 @@ Begin
     Button := TButton.Create(StringGridProduct);
     Button.BoundsRect := R2;
     Button.Caption := '-';
-    Button.Tag := FDTableProducts.FieldByName('id').AsInteger;
+    Button.Tag := strtoint(FDTableProducts.FieldByName('id').asString);
     Button.ControlStyle := [csClickEvents];
     Button.OnClick := GridButtonDeleteClick;
     Button.Parent := StringGridProduct;
@@ -134,15 +135,21 @@ Begin
 End;
 
 procedure TFormList.GridButtonEditClick(Sender: TObject);
+var
+  Button: TButton;
 begin
-  //owMessage(TButton(Sender).Tag);
+  Button := TButton(Sender);
+  ShowMessage(Button.Tag.ToString);
 end;
 
 procedure TFormList.GridButtonDeleteClick(Sender: TObject);
 var
-  Button: TButton absolute Sender;
+  Button: TButton;
 begin
-  ShowMessage(TButton(Sender).Caption);
+  Button := TButton(Sender);
+
+  FDQueryProductDelete.Params.ParamByName('id').Value := Button.Tag.ToString;
+  FDQueryProductDelete.ExecSQL;
 end;
 
 end.

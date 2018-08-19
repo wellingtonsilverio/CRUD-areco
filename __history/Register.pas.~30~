@@ -21,11 +21,13 @@ type
     FDQueryProductInsert: TFDQuery;
     EditName: TEdit;
     RichEditDescr: TRichEdit;
-    procedure ButtonCancelClick(Sender: TObject);
     procedure ButtonRegisterClick(Sender: TObject);
+    procedure ButtonCancelClick(Sender: TObject);
   private
     class procedure SetResourceString(xOldResourceString: PResStringRec;
                                          xValueChanged: PChar);
+    class function isEmpty(text: string): Boolean;
+    class procedure closeAndRefresh();
   public
     { Public declarations }
   end;
@@ -41,8 +43,7 @@ uses List;
 
 procedure TFormRegister.ButtonCancelClick(Sender: TObject);
 begin
-  FormList.StringGridSetup();
-  Close
+  closeAndRefresh()
 end;
 
 procedure TFormRegister.ButtonRegisterClick(Sender: TObject);
@@ -51,15 +52,16 @@ var
   mbYesCustom: Tbutton;
   mbNoCustom: Tbutton;
 begin
-  if Length(EditName.Text) < 1 then exit;
-  if Length(RichEditDescr.Text) < 1 then exit;
+  //Check if fields is empty
+  if isEmpty(EditName.Text) then exit;
+  if isEmpty(RichEditDescr.Text) then exit;
 
-  //Definir Parametros e executar Insert
+  //Define params and execute insert
   FDQueryProductInsert.Params.ParamByName('name').Value := EditName.Text;
   FDQueryProductInsert.Params.ParamByName('descr').Value := RichEditDescr.Text;
   FDQueryProductInsert.ExecSQL;
 
-  //Traduzir os botões
+  //translate button mensage
   SetResourceString(@SMsgDlgYes, 'Sim');
   SetResourceString(@SMsgDlgNo, 'Não');
 
@@ -73,10 +75,10 @@ begin
     EditName.Text := '';
     RichEditDescr.Text := '';
   end;
-  if confirmDialog = 7 then Close;
+  if confirmDialog = 7 then closeAndRefresh();
 end;
 
-//Procedure para tradução
+//Procedure of translate
 class procedure TFormRegister.SetResourceString(xOldResourceString: PResStringRec;
                                            xValueChanged: PChar);
 var
@@ -87,6 +89,27 @@ begin
    xOldResourceString^.Identifier := Integer(xValueChanged);
    VirtualProtect(xOldResourceString,SizeOf(xOldResourceString^),POldProtect,
                   @POldProtect);
+end;
+
+//message of empty
+class function TFormRegister.isEmpty(text: string): Boolean;
+begin
+  if Length(text) < 1 then
+  begin
+    ShowMessage('Campo em branco');
+    Result := True;
+  end
+  else Result := False;
+end;
+
+//Close Dialog
+class procedure TFormRegister.closeAndRefresh();
+begin
+  try
+    FormList.StringGridSetup();
+  finally
+    FormRegister.Close;
+  end;
 end;
 
 end.

@@ -97,4 +97,17 @@ object FormList: TFormList
       Origin = 'price'
     end
   end
+  object FDQueryProductDelete: TFDQuery
+    Connection = FDConnectionSQLite
+    SQL.Strings = (
+      'DELETE FROM `products`'
+      'WHERE `id` = :id')
+    Left = 688
+    Top = 352
+    ParamData = <
+      item
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
 end

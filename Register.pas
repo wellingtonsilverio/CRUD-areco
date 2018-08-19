@@ -24,12 +24,11 @@ type
     procedure ButtonRegisterClick(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
   private
-    class procedure SetResourceString(xOldResourceString: PResStringRec;
-                                         xValueChanged: PChar);
     class function isEmpty(text: string): Boolean;
     class procedure closeAndRefresh();
   public
-    { Public declarations }
+    class procedure SetResourceString(xOldResourceString: PResStringRec;
+                                         xValueChanged: PChar);
   end;
 
 var
@@ -49,8 +48,6 @@ end;
 procedure TFormRegister.ButtonRegisterClick(Sender: TObject);
 var
   confirmDialog : Integer;
-  mbYesCustom: Tbutton;
-  mbNoCustom: Tbutton;
 begin
   //Check if fields is empty
   if isEmpty(EditName.Text) then exit;

@@ -45,12 +45,12 @@ uses Register;
 
 procedure TFormList.ButtonPushRegisterClick(Sender: TObject);
 begin
-  with TFormRegister.Create(nil) do
-    try
-      ShowModal;
-    finally
-      Release;
-    end;
+  try
+    Application.CreateForm(TFormRegister, FormRegister);
+    FormRegister.ShowModal;
+  finally
+    FormRegister.Release;
+  end;
 end;
 
 procedure TFormList.FormShow(Sender: TObject);

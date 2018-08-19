@@ -13,6 +13,7 @@ object FormList: TFormList
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -28,76 +29,41 @@ object FormList: TFormList
     Font.Style = []
     ParentFont = False
   end
-  object DBGridProducts: TDBGrid
-    Left = 8
-    Top = 59
-    Width = 751
-    Height = 414
-    DataSource = DataSourceProducts
-    TabOrder = 0
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'Tahoma'
-    TitleFont.Style = []
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'id'
-        Width = 66
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'name'
-        Width = 134
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'descr'
-        Width = 305
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'stock'
-        Width = 101
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'price'
-        Width = 92
-        Visible = True
-      end>
-  end
   object ButtonPushRegister: TButton
     Left = 504
     Top = 479
     Width = 255
     Height = 44
     Caption = 'Cadastrar novo produto'
-    TabOrder = 1
+    TabOrder = 0
     OnClick = ButtonPushRegisterClick
   end
-  object DataSourceProducts: TDataSource
-    AutoEdit = False
-    DataSet = FDTableProducts
-    Left = 688
-    Top = 352
+  object StringGridProduct: TStringGrid
+    Left = 0
+    Top = 59
+    Width = 751
+    Height = 414
+    ColCount = 6
+    TabOrder = 1
+    ColWidths = (
+      64
+      171
+      251
+      84
+      75
+      82)
   end
   object FDConnectionSQLite: TFDConnection
     Params.Strings = (
       'Database=C:\GitHub\CRUD-areco\DB.sqlite3'
       'LockingMode=Normal'
+      'Synchronous=Full'
+      'StringFormat=Unicode'
       'DriverID=SQLite')
-    Connected = True
     Left = 688
     Top = 408
   end
   object FDTableProducts: TFDTable
-    Active = True
     AutoCalcFields = False
     IndexFieldNames = 'id'
     Connection = FDConnectionSQLite
@@ -106,37 +72,27 @@ object FormList: TFormList
     Left = 688
     Top = 472
     object FDTableProductsid: TFDAutoIncField
-      DisplayLabel = 'C'#243'digo'
       FieldName = 'id'
       Origin = 'id'
       ProviderFlags = [pfInWhere, pfInKey]
-      ReadOnly = True
     end
     object FDTableProductsname: TWideMemoField
-      DisplayLabel = 'Nome'
       FieldName = 'name'
       Origin = 'name'
-      ReadOnly = True
-      BlobType = ftWideString
+      BlobType = ftWideMemo
     end
     object FDTableProductsdescr: TWideMemoField
-      DisplayLabel = 'Descri'#231#227'o'
       FieldName = 'descr'
       Origin = 'descr'
-      ReadOnly = True
-      BlobType = ftWideString
+      BlobType = ftWideMemo
     end
     object FDTableProductsstock: TIntegerField
-      DisplayLabel = 'Em estoque'
       FieldName = 'stock'
       Origin = 'stock'
-      ReadOnly = True
     end
     object FDTableProductsprice: TFloatField
-      DisplayLabel = 'Pre'#231'o (R$)'
       FieldName = 'price'
       Origin = 'price'
-      ReadOnly = True
     end
   end
 end

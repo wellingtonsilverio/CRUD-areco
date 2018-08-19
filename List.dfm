@@ -75,6 +75,7 @@ object FormList: TFormList
       FieldName = 'id'
       Origin = 'id'
       ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
     end
     object FDTableProductsname: TWideMemoField
       FieldName = 'name'

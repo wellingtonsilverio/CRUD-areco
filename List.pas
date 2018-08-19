@@ -28,7 +28,8 @@ type
     procedure FormShow(Sender: TObject);
 
   private
-    procedure GridButtonClick(Sender: TObject);
+    procedure GridButtonEditClick(Sender: TObject);
+    procedure GridButtonDeleteClick(Sender: TObject);
   public
     procedure StringGridSetup();
   end;
@@ -85,8 +86,8 @@ Begin
   StringGridProduct.cells[2, 0] := 'Descrição';
   StringGridProduct.cells[3, 0] := 'Em Estoque';
   StringGridProduct.cells[4, 0] := 'Preço';
-  StringGridProduct.cells[5, 0] := 'Ações';
-  StringGridProduct.cells[6, 0] := 'Ações';
+  StringGridProduct.cells[5, 0] := 'Editar';
+  StringGridProduct.cells[6, 0] := 'Excluir';
 
   //Data of database SQLite
   i := 1;
@@ -98,24 +99,26 @@ Begin
     StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asString;
     StringGridProduct.cells[4, i] := FDTableProducts.FieldByName('price').asString;
 
+    //Button of Edit
     Button := TButton.Create(StringGridProduct);
     Button.BoundsRect := R1;
-    Button.Caption := 'Editar';
-    Button.Tag := I;
+    Button.Caption := 'I';
+    Button.Tag := strtoint(FDTableProducts.FieldByName('id').asString);
     Button.ControlStyle := [csClickEvents];
-    Button.OnClick := GridButtonClick;
+    Button.OnClick := GridButtonEditClick;
     Button.Parent := StringGridProduct;
-    StringGridProduct.Objects[0, I] := Button;
+    StringGridProduct.Objects[0, i] := Button;
     OffsetRect(R1, 0, StringGridProduct.DefaultRowHeight + StringGridProduct.GridLineWidth);
 
+    //Button of Delete
     Button := TButton.Create(StringGridProduct);
     Button.BoundsRect := R2;
-    Button.Caption := 'Excluir';
-    Button.Tag := I;
+    Button.Caption := '-';
+    Button.Tag := strtoint(FDTableProducts.FieldByName('id').asString);
     Button.ControlStyle := [csClickEvents];
-    Button.OnClick := GridButtonClick;
+    Button.OnClick := GridButtonDeleteClick;
     Button.Parent := StringGridProduct;
-    StringGridProduct.Objects[0, I] := Button;
+    StringGridProduct.Objects[0, i] := Button;
     OffsetRect(R2, 0, StringGridProduct.DefaultRowHeight + StringGridProduct.GridLineWidth);
 
     FDTableProducts.next;
@@ -130,9 +133,20 @@ Begin
   FDConnectionSQLite.Connected := False;
 End;
 
-procedure TFormList.GridButtonClick(Sender: TObject);
+procedure TFormList.GridButtonEditClick(Sender: TObject);
+var
+  Button: TButton;
 begin
-  ShowMessage('a');
+  Button := TButton(Sender);
+  ShowMessage(Button.Tag.ToString);
+end;
+
+procedure TFormList.GridButtonDeleteClick(Sender: TObject);
+var
+  Button: TButton;
+begin
+  Button := TButton(Sender);
+  ShowMessage(Button.Tag.ToString);
 end;
 
 end.

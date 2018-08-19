@@ -43,15 +43,16 @@ object FormList: TFormList
     Top = 59
     Width = 751
     Height = 414
-    ColCount = 6
+    ColCount = 7
     TabOrder = 1
     ColWidths = (
       64
       183
-      257
-      77
-      72
-      52)
+      249
+      69
+      63
+      48
+      44)
   end
   object FDConnectionSQLite: TFDConnection
     Params.Strings = (

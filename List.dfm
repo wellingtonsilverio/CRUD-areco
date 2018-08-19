@@ -47,11 +47,11 @@ object FormList: TFormList
     TabOrder = 1
     ColWidths = (
       64
-      171
-      251
-      84
-      75
-      82)
+      183
+      257
+      77
+      72
+      52)
   end
   object FDConnectionSQLite: TFDConnection
     Params.Strings = (

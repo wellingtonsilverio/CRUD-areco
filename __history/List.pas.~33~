@@ -26,6 +26,7 @@ type
     StringGridProduct: TStringGrid;
     procedure ButtonPushRegisterClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure GridButtonClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -45,12 +46,12 @@ uses Register;
 
 procedure TFormList.ButtonPushRegisterClick(Sender: TObject);
 begin
-  with TFormRegister.Create(nil) do
-    try
-      ShowModal;
-    finally
-      Free;
-    end;
+  try
+    Application.CreateForm(TFormRegister, FormRegister);
+    FormRegister.ShowModal;
+  finally
+    FormRegister.Release;
+  end;
 end;
 
 procedure TFormList.FormShow(Sender: TObject);
@@ -92,6 +93,23 @@ Begin
     i := i + 1;
   end;
 
+  //Add buttons
+  R := StringGridProduct.CellRect(5, StringGridProduct.FixedRows);
+  Inc(R.Right, StringGridProduct.GridLineWidth);
+  Inc(R.Bottom, StringGridProduct.GridLineWidth);
+  for I := StringGridProduct.FixedRows to StringGridProduct.RowCount - 1 do
+  begin
+    Button := TButton.Create(StringGridProduct);
+    Button.BoundsRect := R;
+    Button.Caption := '+';
+    Button.Tag := I;
+    Button.ControlStyle := [csClickEvents];
+    Button.OnClick := GridButtonClick;
+    Button.Parent := StringGridProduct;
+    StringGridProduct.Objects[0, I] := Button;
+    OffsetRect(R, 0, StringGridProduct.DefaultRowHeight + StringGridProduct.GridLineWidth);
+  end;
+
   //Set number of lines in Grid
   StringGridProduct.RowCount := i;
 
@@ -99,5 +117,10 @@ Begin
   FDTableProducts.Active := False;
   FDConnectionSQLite.Connected := False;
 End;
+
+procedure TForm1.GridButtonClick(Sender: TObject);
+begin
+  ShowMessage('a');
+end;
 
 end.

@@ -24,9 +24,9 @@ type
     FDTableProductsstock: TIntegerField;
     FDTableProductsprice: TFloatField;
     StringGridProduct: TStringGrid;
-    OnInit: TTimer;
     procedure ButtonPushRegisterClick(Sender: TObject);
-    procedure OnInitTimer(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
   private
     { Private declarations }
   public
@@ -45,48 +45,59 @@ uses Register;
 
 procedure TFormList.ButtonPushRegisterClick(Sender: TObject);
 begin
-  with TFormRegister.Create(nil) do
-    try
-      ShowModal;
-    finally
-      Free;
-    end;
+  try
+    Application.CreateForm(TFormRegister, FormRegister);
+    FormRegister.ShowModal;
+  finally
+    FormRegister.Release;
+  end;
 end;
 
-procedure TFormList.OnInitTimer(Sender: TObject);
+procedure TFormList.FormShow(Sender: TObject);
 begin
   StringGridSetup();
-
-  //Don't Execute over
-  OnInit.Enabled := False;
 end;
 
 procedure TFormList.StringGridSetup();
 Var
   i: Integer;
+  Button: TButton;
+  R: TRect;
 Begin
+  //Connect to DB
+  FDConnectionSQLite.Connected := True;
+
+  //Execute Query
+  FDTableProducts.Active := True;
+
   //Titles
   StringGridProduct.cells[0, 0] := 'Código';
-  StringGridProduct.cells[1, i] := 'Nome';
-  StringGridProduct.cells[2, i] := 'Descrição';
-  StringGridProduct.cells[3, i] := 'Em Estoque';
-  StringGridProduct.cells[4, i] := 'Preço';
+  StringGridProduct.cells[1, 0] := 'Nome';
+  StringGridProduct.cells[2, 0] := 'Descrição';
+  StringGridProduct.cells[3, 0] := 'Em Estoque';
+  StringGridProduct.cells[4, 0] := 'Preço';
+  StringGridProduct.cells[5, 0] := 'Ações';
 
   //Data of database SQLite
   i := 1;
   while not FDTableProducts.eof do
   begin
-  StringGridProduct.cells[0, i] := FDTableProducts.FieldByName('id').asString;
-  StringGridProduct.cells[1, i] := FDTableProducts.FieldByName('name').asString;
-  StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').asString;
-  StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asString;
-  StringGridProduct.cells[4, i] := FDTableProducts.FieldByName('price').asString;
-  FDTableProducts.next;
-  i := i + 1;
+    StringGridProduct.cells[0, i] := FDTableProducts.FieldByName('id').asString;
+    StringGridProduct.cells[1, i] := FDTableProducts.FieldByName('name').asString;
+    StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').asString;
+    StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asString;
+    StringGridProduct.cells[4, i] := FDTableProducts.FieldByName('price').asString;
+
+    FDTableProducts.next;
+    i := i + 1;
   end;
 
   //Set number of lines in Grid
   StringGridProduct.RowCount := i;
+
+  //Close connections and Query
+  FDTableProducts.Active := False;
+  FDConnectionSQLite.Connected := False;
 End;
 
 end.

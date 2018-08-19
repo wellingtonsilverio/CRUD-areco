@@ -28,10 +28,9 @@ type
     procedure FormShow(Sender: TObject);
 
   private
-    { Private declarations }
+    procedure GridButtonClick(Sender: TObject);
   public
     procedure StringGridSetup();
-    { Public declarations }
   end;
 
 var
@@ -45,12 +44,12 @@ uses Register;
 
 procedure TFormList.ButtonPushRegisterClick(Sender: TObject);
 begin
-  with TFormRegister.Create(nil) do
-    try
-      ShowModal;
-    finally
-      Free;
-    end;
+  try
+    Application.CreateForm(TFormRegister, FormRegister);
+    FormRegister.ShowModal;
+  finally
+    FormRegister.Release;
+  end;
 end;
 
 procedure TFormList.FormShow(Sender: TObject);
@@ -70,19 +69,13 @@ Begin
   //Execute Query
   FDTableProducts.Active := True;
 
-  Button := TButton.Create(StringGridProduct);
-  Button.BoundsRect := R;
-  Button.Caption := '+';
-  Button.Tag := I;
-  Button.ControlStyle := [csClickEvents];
-  Button.Parent := StringGridProduct;
-
   //Titles
   StringGridProduct.cells[0, 0] := 'Código';
-  StringGridProduct.cells[1, i] := 'Nome';
-  StringGridProduct.cells[2, i] := 'Descrição';
-  StringGridProduct.cells[3, i] := 'Em Estoque';
-  StringGridProduct.cells[4, i] := 'Preço';
+  StringGridProduct.cells[1, 0] := 'Nome';
+  StringGridProduct.cells[2, 0] := 'Descrição';
+  StringGridProduct.cells[3, 0] := 'Em Estoque';
+  StringGridProduct.cells[4, 0] := 'Preço';
+  StringGridProduct.cells[5, 0] := 'Ações';
 
   //Data of database SQLite
   i := 1;
@@ -93,19 +86,39 @@ Begin
     StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').asString;
     StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asString;
     StringGridProduct.cells[4, i] := FDTableProducts.FieldByName('price').asString;
-    StringGridProduct.Objects[1, i] := Button;
-    OffsetRect(R, 0, StringGridProduct.DefaultRowHeight + StringGridProduct.GridLineWidth);
+
     FDTableProducts.next;
     i := i + 1;
   end;
 
+  //Add buttons
+  R := StringGridProduct.CellRect(5, StringGridProduct.FixedRows);
+  Inc(R.Right, StringGridProduct.GridLineWidth);
+  Inc(R.Bottom, StringGridProduct.GridLineWidth);
+  for I := StringGridProduct.FixedRows to StringGridProduct.RowCount - 1 do
+  begin
+    Button := TButton.Create(StringGridProduct);
+    Button.BoundsRect := R;
+    Button.Caption := '+';
+    Button.Tag := I;
+    Button.ControlStyle := [csClickEvents];
+    Button.OnClick := GridButtonClick;
+    Button.Parent := StringGridProduct;
+    StringGridProduct.Objects[0, I] := Button;
+    OffsetRect(R, 0, StringGridProduct.DefaultRowHeight + StringGridProduct.GridLineWidth);
+  end;
+
   //Set number of lines in Grid
   StringGridProduct.RowCount := i;
-  StringGridProduct.ControlCount := 1;
 
   //Close connections and Query
   FDTableProducts.Active := False;
   FDConnectionSQLite.Connected := False;
 End;
+
+procedure TFormList.GridButtonClick(Sender: TObject);
+begin
+  ShowMessage('a');
+end;
 
 end.

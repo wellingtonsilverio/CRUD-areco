@@ -72,12 +72,12 @@ Begin
 
   //Buttons
   R1 := StringGridProduct.CellRect(5, StringGridProduct.FixedRows);
-  Inc(R1.Right, StringGridProduct.GridLineWidth);
-  Inc(R1.Bottom, StringGridProduct.GridLineWidth);
+  Inc(R.Right, StringGridProduct.GridLineWidth);
+  Inc(R.Bottom, StringGridProduct.GridLineWidth);
 
   R2 := StringGridProduct.CellRect(6, StringGridProduct.FixedRows);
-  Inc(R2.Right, StringGridProduct.GridLineWidth);
-  Inc(R2.Bottom, StringGridProduct.GridLineWidth);
+  Inc(R.Right, StringGridProduct.GridLineWidth);
+  Inc(R.Bottom, StringGridProduct.GridLineWidth);
 
   //Titles
   StringGridProduct.cells[0, 0] := 'Código';

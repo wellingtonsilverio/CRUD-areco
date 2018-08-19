@@ -3,7 +3,7 @@ object FormRegister: TFormRegister
   Top = 0
   BorderIcons = []
   Caption = 'Cadastro de produto'
-  ClientHeight = 343
+  ClientHeight = 294
   ClientWidth = 475
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -30,15 +30,15 @@ object FormRegister: TFormRegister
     Caption = 'Descri'#231#227'o:'
   end
   object Label3: TLabel
-    Left = 16
-    Top = 232
+    Left = 320
+    Top = 8
     Width = 31
     Height = 13
     Caption = 'Pre'#231'o:'
   end
   object ButtonRegister: TButton
     Left = 287
-    Top = 278
+    Top = 232
     Width = 180
     Height = 55
     Caption = 'Cadastrar'
@@ -47,7 +47,7 @@ object FormRegister: TFormRegister
   end
   object ButtonCancel: TButton
     Left = 166
-    Top = 278
+    Top = 232
     Width = 115
     Height = 55
     Caption = 'Voltar'
@@ -57,7 +57,7 @@ object FormRegister: TFormRegister
   object EditName: TEdit
     Left = 16
     Top = 27
-    Width = 451
+    Width = 298
     Height = 21
     TabOrder = 2
   end
@@ -75,12 +75,15 @@ object FormRegister: TFormRegister
     TabOrder = 3
     Zoom = 100
   end
-  object EditPrice: TEdit
-    Left = 16
-    Top = 251
-    Width = 451
+  object MaskEditPrice: TMaskEdit
+    Left = 320
+    Top = 27
+    Width = 140
     Height = 21
+    EditMask = 'R$ ###,###,##0.00;0;_'
+    MaxLength = 17
     TabOrder = 4
+    Text = ''
   end
   object FDConnectionSQLite: TFDConnection
     Params.Strings = (
@@ -89,7 +92,7 @@ object FormRegister: TFormRegister
       'DriverID=SQLite')
     Connected = True
     Left = 400
-    Top = 8
+    Top = 64
   end
   object FDQueryProductInsert: TFDQuery
     Connection = FDConnectionSQLite
@@ -98,7 +101,7 @@ object FormRegister: TFormRegister
         'INSERT INTO `products` (`name`, `descr`, `price`) VALUES (:name,' +
         ' :descr, :price)')
     Left = 400
-    Top = 72
+    Top = 112
     ParamData = <
       item
         Name = 'NAME'

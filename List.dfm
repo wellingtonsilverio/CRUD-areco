@@ -57,7 +57,7 @@ object FormList: TFormList
     OnClick = ButtonDeleteClick
   end
   object StringGridProduct: TStringGrid
-    Left = 0
+    Left = 8
     Top = 59
     Width = 751
     Height = 414

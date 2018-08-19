@@ -138,7 +138,7 @@ Begin
     StringGridProduct.cells[1, i] := FDTableProducts.FieldByName('name').asString;
     StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').asString;
     StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asString;
-    StringGridProduct.cells[4, i] := FDTableProducts.FieldByName('price').asFloat.ToString;
+    StringGridProduct.cells[4, i] := FormatFloat('R$ ###,###,##0.00',FDTableProducts.FieldByName('price').AsInteger/100);
 
     FDTableProducts.next;
     i := i + 1;

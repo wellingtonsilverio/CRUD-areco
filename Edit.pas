@@ -10,26 +10,27 @@ uses
   FireDAC.Phys, FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef,
   FireDAC.Stan.ExprFuncs, FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS,
   FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client;
+  FireDAC.Comp.Client, Vcl.Mask;
 
 type
   TFormEdit = class(TForm)
     Label1: TLabel;
     Label2: TLabel;
-    Label3: TLabel;
     RichEditDescr: TRichEdit;
     EditName: TEdit;
-    EditPrice: TEdit;
     ButtonEdit: TButton;
     ButtonExit: TButton;
     FDConnectionSQLite: TFDConnection;
     FDQuerySelect: TFDQuery;
     FDQueryProductEdit: TFDQuery;
+    Label4: TLabel;
+    MaskEditPrice: TMaskEdit;
     procedure ButtonExitClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ButtonEditClick(Sender: TObject);
   private
     class procedure closeAndRefresh();
+    class function isEmpty(text: string): Boolean;
   public
     Id: string;
   end;
@@ -45,12 +46,17 @@ uses List;
 
 procedure TFormEdit.ButtonEditClick(Sender: TObject);
 begin
+  //Check if fields is empty
+  if isEmpty(EditName.Text) then exit;
+  if isEmpty(RichEditDescr.Text) then exit;
+  if isEmpty(MaskEditPrice.Text) then exit;
+
   FDConnectionSQLite.Connected := True;
 
   FDQueryProductEdit.Params.ParamByName('id').Value := Id;
   FDQueryProductEdit.Params.ParamByName('name').Value := EditName.Text;
   FDQueryProductEdit.Params.ParamByName('descr').Value := RichEditDescr.Text;
-  FDQueryProductEdit.Params.ParamByName('price').Value := EditPrice.Text;
+  FDQueryProductEdit.Params.ParamByName('price').Value := MaskEditPrice.Text;
   FDQueryProductEdit.ExecSQL;
 
   FDConnectionSQLite.Connected := False;
@@ -83,9 +89,20 @@ begin
 
   EditName.Text := FDQuerySelect.FieldByName('name').Value;
   RichEditDescr.Text := FDQuerySelect.FieldByName('descr').Value;
-  EditPrice.Text := FDQuerySelect.FieldByName('price').Value;
+  MaskEditPrice.Text := (FDQuerySelect.FieldByName('price').AsInteger).ToString;
 
   FDConnectionSQLite.Connected := False;
+end;
+
+//message of empty
+class function TFormEdit.isEmpty(text: string): Boolean;
+begin
+  if Length(text) < 1 then
+  begin
+    ShowMessage('Campo em branco');
+    Result := True;
+  end
+  else Result := False;
 end;
 
 end.

@@ -3,7 +3,7 @@ object FormEdit: TFormEdit
   Top = 0
   BorderIcons = []
   Caption = 'Editar produto'
-  ClientHeight = 315
+  ClientHeight = 270
   ClientWidth = 577
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -30,12 +30,12 @@ object FormEdit: TFormEdit
     Height = 13
     Caption = 'Descri'#231#227'o:'
   end
-  object Label3: TLabel
-    Left = 8
-    Top = 208
-    Width = 27
+  object Label4: TLabel
+    Left = 429
+    Top = 8
+    Width = 31
     Height = 13
-    Caption = 'Pre'#231'o'
+    Caption = 'Pre'#231'o:'
   end
   object RichEditDescr: TRichEdit
     Left = 8
@@ -54,34 +54,37 @@ object FormEdit: TFormEdit
   object EditName: TEdit
     Left = 8
     Top = 27
-    Width = 561
+    Width = 415
     Height = 21
     TabOrder = 1
   end
-  object EditPrice: TEdit
-    Left = 8
-    Top = 227
-    Width = 561
-    Height = 21
-    TabOrder = 2
-  end
   object ButtonEdit: TButton
     Left = 400
-    Top = 254
+    Top = 208
     Width = 169
     Height = 53
     Caption = 'Editar'
-    TabOrder = 3
+    TabOrder = 2
     OnClick = ButtonEditClick
   end
   object ButtonExit: TButton
     Left = 280
-    Top = 254
+    Top = 208
     Width = 114
     Height = 53
     Caption = 'Voltar'
-    TabOrder = 4
+    TabOrder = 3
     OnClick = ButtonExitClick
+  end
+  object MaskEditPrice: TMaskEdit
+    Left = 429
+    Top = 27
+    Width = 122
+    Height = 21
+    EditMask = 'R$ ###,###,##0.00;0;_'
+    MaxLength = 17
+    TabOrder = 4
+    Text = ''
   end
   object FDConnectionSQLite: TFDConnection
     Params.Strings = (

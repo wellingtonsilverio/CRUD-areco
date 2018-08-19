@@ -9,7 +9,8 @@ uses
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
   FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
   FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls, consts;
+  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls, consts,
+  Vcl.Mask;
 
 type
   TFormRegister = class(TForm)
@@ -22,7 +23,7 @@ type
     EditName: TEdit;
     RichEditDescr: TRichEdit;
     Label3: TLabel;
-    EditPrice: TEdit;
+    MaskEditPrice: TMaskEdit;
     procedure ButtonRegisterClick(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
   private
@@ -54,12 +55,12 @@ begin
   //Check if fields is empty
   if isEmpty(EditName.Text) then exit;
   if isEmpty(RichEditDescr.Text) then exit;
-  if isEmpty(EditPrice.Text) then exit;
+  if isEmpty(MaskEditPrice.Text) then exit;
 
   //Define params and execute insert
   FDQueryProductInsert.Params.ParamByName('name').Value := EditName.Text;
   FDQueryProductInsert.Params.ParamByName('descr').Value := RichEditDescr.Text;
-  FDQueryProductInsert.Params.ParamByName('price').Value := EditPrice.Text;
+  FDQueryProductInsert.Params.ParamByName('price').Value := MaskEditPrice.Text;
   FDQueryProductInsert.ExecSQL;
 
   //translate button mensage
@@ -75,7 +76,7 @@ begin
   begin
     EditName.Text := '';
     RichEditDescr.Text := '';
-    EditPrice.Text := '';
+    MaskEditPrice.Text := '';
   end;
   if confirmDialog = 7 then closeAndRefresh();
 end;

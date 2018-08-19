@@ -51,9 +51,6 @@ var
   mbYesCustom: Tbutton;
   mbNoCustom: Tbutton;
 begin
-  if Length(EditName.Text) < 1 then exit;
-  if Length(RichEditDescr.Text) < 1 then exit;
-
   //Definir Parametros e executar Insert
   FDQueryProductInsert.Params.ParamByName('name').Value := EditName.Text;
   FDQueryProductInsert.Params.ParamByName('descr').Value := RichEditDescr.Text;

@@ -51,7 +51,6 @@ var
   mbYesCustom: Tbutton;
   mbNoCustom: Tbutton;
 begin
-  //Definir Parametros e executar Insert
   FDQueryProductInsert.Params.ParamByName('name').Value := EditName.Text;
   FDQueryProductInsert.Params.ParamByName('descr').Value := RichEditDescr.Text;
   FDQueryProductInsert.ExecSQL;
@@ -73,7 +72,6 @@ begin
   if confirmDialog = 7 then Close;
 end;
 
-//Procedure para tradução
 class procedure TFormRegister.SetResourceString(xOldResourceString: PResStringRec;
                                            xValueChanged: PChar);
 var

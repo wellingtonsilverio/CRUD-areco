@@ -13,6 +13,7 @@ object FormList: TFormList
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -38,17 +39,19 @@ object FormList: TFormList
     OnClick = ButtonPushRegisterClick
   end
   object StringGridProduct: TStringGrid
-    Left = 8
+    Left = 0
     Top = 59
     Width = 751
     Height = 414
+    ColCount = 6
     TabOrder = 1
     ColWidths = (
       64
-      172
-      295
-      103
-      105)
+      171
+      251
+      84
+      75
+      82)
   end
   object FDConnectionSQLite: TFDConnection
     Params.Strings = (
@@ -57,12 +60,10 @@ object FormList: TFormList
       'Synchronous=Full'
       'StringFormat=Unicode'
       'DriverID=SQLite')
-    Connected = True
     Left = 688
     Top = 408
   end
   object FDTableProducts: TFDTable
-    Active = True
     AutoCalcFields = False
     IndexFieldNames = 'id'
     Connection = FDConnectionSQLite
@@ -93,11 +94,5 @@ object FormList: TFormList
       FieldName = 'price'
       Origin = 'price'
     end
-  end
-  object OnInit: TTimer
-    Interval = 1
-    OnTimer = OnInitTimer
-    Left = 688
-    Top = 352
   end
 end

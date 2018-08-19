@@ -9,7 +9,7 @@ uses
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
   FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
   FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls;
+  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls, consts;
 
 type
   TFormRegister = class(TForm)
@@ -24,7 +24,8 @@ type
     procedure ButtonCancelClick(Sender: TObject);
     procedure ButtonRegisterClick(Sender: TObject);
   private
-    { Private declarations }
+    class procedure SetResourceString(xOldResourceString: PResStringRec;
+                                         xValueChanged: PChar);
   public
     { Public declarations }
   end;
@@ -45,10 +46,40 @@ begin
 end;
 
 procedure TFormRegister.ButtonRegisterClick(Sender: TObject);
+var
+  confirmDialog : Integer;
+  mbYesCustom: Tbutton;
+  mbNoCustom: Tbutton;
 begin
   FDQueryProductInsert.Params.ParamByName('name').Value := EditName.Text;
-  FDQueryProductInsert.Params.ParamByName('descr').Value := EditDescr.Text;
+  FDQueryProductInsert.Params.ParamByName('descr').Value := RichEditDescr.Text;
   FDQueryProductInsert.ExecSQL;
+
+  SetResourceString(@SMsgDlgYes, 'Sim');
+
+  // Show a re-register dialog
+  confirmDialog := messagedlg('Produto cadastrado com sucesso! deseja fazer outro cadastro?',
+    mtInformation, [ mbYes, mbNO ], 0);
+
+  // Show the button type selected
+  if confirmDialog = 6  then
+  begin
+    EditName.Text := '';
+    RichEditDescr.Text := '';
+  end;
+  if confirmDialog = 7 then FormList.Close;
+end;
+
+class procedure FormRegister.SetResourceString(xOldResourceString: PResStringRec;
+                                           xValueChanged: PChar);
+var
+  POldProtect: DWORD;
+begin
+  VirtualProtect(xOldResourceString, SizeOf(xOldResourceString^),
+                 PAGE_EXECUTE_READWRITE, @POldProtect);
+   xOldResourceString^.Identifier := Integer(xValueChanged);
+   VirtualProtect(xOldResourceString,SizeOf(xOldResourceString^),POldProtect,
+                  @POldProtect);
 end;
 
 end.

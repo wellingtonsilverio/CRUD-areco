@@ -43,7 +43,7 @@ object FormRegister: TFormRegister
     Top = 232
     Width = 115
     Height = 55
-    Caption = 'Cancelar'
+    Caption = 'Voltar'
     TabOrder = 1
     OnClick = ButtonCancelClick
   end
@@ -64,8 +64,6 @@ object FormRegister: TFormRegister
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    Lines.Strings = (
-      'RichEditDescr')
     ParentFont = False
     TabOrder = 3
     Zoom = 100

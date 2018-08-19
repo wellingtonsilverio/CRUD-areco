@@ -53,11 +53,12 @@ var
   confirmDialog: Integer;
   id: string;
 begin
+  //Get first selection in Grid
   IdRow := StringGridProduct.Selection.Top;
 
-  if IdRow > 0 then
+  if IdRow > 0 then //Confirm leastways row select
   begin
-    id := StringGridProduct.Cells[0, IdRow];
+    id := StringGridProduct.Cells[0, IdRow]; //Get id
     //translate button mensage
     TFormRegister.SetResourceString(@SMsgDlgYes, 'Sim');
     TFormRegister.SetResourceString(@SMsgDlgNo, 'Não');
@@ -71,8 +72,9 @@ begin
     begin
       FDQueryProductDelete.Params.ParamByName('id').Value := id;
       FDQueryProductDelete.ExecSQL;
+
       ShowMessage('Produto excluido com sucesso!');
-      StringGridSetup()
+      StringGridSetup();
     end;
   end;
 end;
@@ -87,6 +89,7 @@ begin
   begin
     try
       Application.CreateForm(TFormEdit, FormEdit);
+      //Set id in new Form
       FormEdit.Id := StringGridProduct.Cells[0, IdRow];
       FormEdit.ShowModal;
     finally
@@ -151,6 +154,5 @@ Begin
   FDTableProducts.Active := False;
   FDConnectionSQLite.Connected := False;
 End;
-
 
 end.

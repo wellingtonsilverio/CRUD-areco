@@ -22,6 +22,11 @@ type
     FDConnectionSQLite: TFDConnection;
     StringGridProduct: TStringGrid;
     FDTableProducts: TFDTable;
+    FDTableProductsid: TFDAutoIncField;
+    FDTableProductsname: TWideMemoField;
+    FDTableProductsdescr: TWideMemoField;
+    FDTableProductsstock: TIntegerField;
+    FDTableProductsprice: TIntegerField;
     procedure ButtonPushRegisterClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ButtonEditClick(Sender: TObject);
@@ -48,11 +53,12 @@ var
   confirmDialog: Integer;
   id: string;
 begin
+  //Get first selection in Grid
   IdRow := StringGridProduct.Selection.Top;
 
-  if IdRow > 0 then
+  if IdRow > 0 then //Confirm leastways row select
   begin
-    id := StringGridProduct.Cells[0, IdRow];
+    id := StringGridProduct.Cells[0, IdRow]; //Get id
     //translate button mensage
     TFormRegister.SetResourceString(@SMsgDlgYes, 'Sim');
     TFormRegister.SetResourceString(@SMsgDlgNo, 'Não');
@@ -66,8 +72,9 @@ begin
     begin
       FDQueryProductDelete.Params.ParamByName('id').Value := id;
       FDQueryProductDelete.ExecSQL;
+
       ShowMessage('Produto excluido com sucesso!');
-      StringGridSetup()
+      StringGridSetup();
     end;
   end;
 end;
@@ -82,6 +89,7 @@ begin
   begin
     try
       Application.CreateForm(TFormEdit, FormEdit);
+      //Set id in new Form
       FormEdit.Id := StringGridProduct.Cells[0, IdRow];
       FormEdit.ShowModal;
     finally
@@ -129,12 +137,11 @@ Begin
   i := 1;
   while not FDTableProducts.eof do
   begin
-    showMessage(FDTableProducts.FieldByName('price').Value);
-    StringGridProduct.cells[0, i] := FDTableProducts.FieldByName('id').Value;
-    StringGridProduct.cells[1, i] := FDTableProducts.FieldByName('name').Value;
-    StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').Value;
-    StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').Value;
-    StringGridProduct.cells[4, i] := FDTableProducts.FieldByName('price').Value;
+    StringGridProduct.cells[0, i] := FDTableProducts.FieldByName('id').AsInteger.ToString;
+    StringGridProduct.cells[1, i] := FDTableProducts.FieldByName('name').asString;
+    StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').asString;
+    StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asString;
+    StringGridProduct.cells[4, i] := FormatFloat('R$ ###,###,##0.00',FDTableProducts.FieldByName('price').AsInteger/100);
 
     FDTableProducts.next;
     i := i + 1;

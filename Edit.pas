@@ -51,8 +51,10 @@ begin
   if isEmpty(RichEditDescr.Text) then exit;
   if isEmpty(MaskEditPrice.Text) then exit;
 
+  //Opne Connection
   FDConnectionSQLite.Connected := True;
 
+  //Sett Params of Query and Execute
   FDQueryProductEdit.Params.ParamByName('id').Value := Id;
   FDQueryProductEdit.Params.ParamByName('name').Value := EditName.Text;
   FDQueryProductEdit.Params.ParamByName('descr').Value := RichEditDescr.Text;
@@ -61,8 +63,9 @@ begin
 
   FDConnectionSQLite.Connected := False;
 
+  //Success
   showMessage('Produto editado com sucesso!');
-  closeAndRefresh();
+  closeAndRefresh(); //Refresh Grid
 end;
 
 procedure TFormEdit.ButtonExitClick(Sender: TObject);
@@ -70,7 +73,7 @@ begin
   closeAndRefresh()
 end;
 
-//Close Dialog
+//Close Dialog and refresh Grid
 class procedure TFormEdit.closeAndRefresh();
 begin
   try
@@ -80,17 +83,22 @@ begin
   end;
 end;
 
+//In OnShow Form
 procedure TFormEdit.FormShow(Sender: TObject);
 begin
+  //Open Connection
   FDConnectionSQLite.Connected := True;
 
+  //Set Param and Create Cursor
   FDQuerySelect.Params.ParamByName('id').Value := Id;
   FDQuerySelect.Open;
 
+  //Set TEdits with Cursor
   EditName.Text := FDQuerySelect.FieldByName('name').Value;
   RichEditDescr.Text := FDQuerySelect.FieldByName('descr').Value;
   MaskEditPrice.Text := (FDQuerySelect.FieldByName('price').AsInteger/100).ToString;
 
+  //Close Connection
   FDConnectionSQLite.Connected := False;
 end;
 

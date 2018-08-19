@@ -22,7 +22,11 @@ type
     FDConnectionSQLite: TFDConnection;
     StringGridProduct: TStringGrid;
     FDTableProducts: TFDTable;
-    FDQueryProductSelect: TFDQuery;
+    FDTableProductsid: TFDAutoIncField;
+    FDTableProductsname: TWideMemoField;
+    FDTableProductsdescr: TWideMemoField;
+    FDTableProductsstock: TIntegerField;
+    FDTableProductsprice: TIntegerField;
     procedure ButtonPushRegisterClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ButtonEditClick(Sender: TObject);
@@ -130,12 +134,11 @@ Begin
   i := 1;
   while not FDTableProducts.eof do
   begin
-    showMessage(FDTableProducts.FieldByName('price').Value);
-    StringGridProduct.cells[0, i] := FDTableProducts.FieldByName('id').Value;
-    StringGridProduct.cells[1, i] := FDTableProducts.FieldByName('name').Value;
-    StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').Value;
-    StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').Value;
-    StringGridProduct.cells[4, i] := FDTableProducts.FieldByName('price').Value;
+    StringGridProduct.cells[0, i] := FDTableProducts.FieldByName('id').AsInteger.ToString;
+    StringGridProduct.cells[1, i] := FDTableProducts.FieldByName('name').asString;
+    StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').asString;
+    StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asString;
+    StringGridProduct.cells[4, i] := FormatFloat('R$ ###,###,##0.00',FDTableProducts.FieldByName('price').AsInteger/100);
 
     FDTableProducts.next;
     i := i + 1;

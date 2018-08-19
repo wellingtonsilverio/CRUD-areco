@@ -56,7 +56,7 @@ begin
   FDQueryProductEdit.Params.ParamByName('id').Value := Id;
   FDQueryProductEdit.Params.ParamByName('name').Value := EditName.Text;
   FDQueryProductEdit.Params.ParamByName('descr').Value := RichEditDescr.Text;
-  FDQueryProductEdit.Params.ParamByName('price').Value := MaskEditPrice.Text;
+  FDQueryProductEdit.Params.ParamByName('price').Value := strtofloat(MaskEditPrice.Text) * 100 ;
   FDQueryProductEdit.ExecSQL;
 
   FDConnectionSQLite.Connected := False;
@@ -89,7 +89,7 @@ begin
 
   EditName.Text := FDQuerySelect.FieldByName('name').Value;
   RichEditDescr.Text := FDQuerySelect.FieldByName('descr').Value;
-  MaskEditPrice.Text := (FDQuerySelect.FieldByName('price').AsInteger).ToString;
+  MaskEditPrice.Text := (FDQuerySelect.FieldByName('price').AsInteger/100).ToString;
 
   FDConnectionSQLite.Connected := False;
 end;

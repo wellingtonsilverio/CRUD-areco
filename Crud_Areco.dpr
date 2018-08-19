@@ -4,7 +4,8 @@ uses
   Vcl.Forms,
   List in 'List.pas' {FormList},
   Register in 'Register.pas' {FormRegister},
-  Edit in 'Edit.pas' {FormEdit};
+  Edit in 'Edit.pas' {FormEdit},
+  Products in 'Products.pas';
 
 {$R *.res}
 

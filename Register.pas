@@ -41,7 +41,7 @@ implementation
 
 {$R *.dfm}
 
-uses List;
+uses List, Products;
 
 procedure TFormRegister.ButtonCancelClick(Sender: TObject);
 begin

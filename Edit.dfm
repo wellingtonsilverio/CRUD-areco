@@ -31,7 +31,7 @@ object FormEdit: TFormEdit
     Caption = 'Descri'#231#227'o:'
   end
   object Label4: TLabel
-    Left = 429
+    Left = 454
     Top = 8
     Width = 31
     Height = 13
@@ -54,7 +54,7 @@ object FormEdit: TFormEdit
   object EditName: TEdit
     Left = 8
     Top = 27
-    Width = 415
+    Width = 440
     Height = 21
     TabOrder = 1
   end
@@ -77,12 +77,10 @@ object FormEdit: TFormEdit
     OnClick = ButtonExitClick
   end
   object MaskEditPrice: TMaskEdit
-    Left = 429
+    Left = 454
     Top = 27
-    Width = 122
+    Width = 115
     Height = 21
-    EditMask = 'R$ ###,###,##0.00;0;_'
-    MaxLength = 17
     TabOrder = 4
     Text = ''
   end

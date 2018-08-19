@@ -16,15 +16,15 @@ object FormRegister: TFormRegister
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 8
+    Left = 16
     Top = 8
     Width = 31
     Height = 13
     Caption = 'Nome:'
   end
   object Label2: TLabel
-    Left = 8
-    Top = 48
+    Left = 16
+    Top = 54
     Width = 50
     Height = 13
     Caption = 'Descri'#231#227'o:'
@@ -45,5 +45,47 @@ object FormRegister: TFormRegister
     Caption = 'Cancelar'
     TabOrder = 1
     OnClick = ButtonCancelClick
+  end
+  object Edit1: TEdit
+    Left = 16
+    Top = 27
+    Width = 451
+    Height = 21
+    TabOrder = 2
+    Text = 'EditName'
+  end
+  object Edit2: TEdit
+    Left = 16
+    Top = 73
+    Width = 451
+    Height = 153
+    TabOrder = 3
+    Text = 'EditDescr'
+  end
+  object FDConnectionSQLite: TFDConnection
+    Params.Strings = (
+      'Database=C:\GitHub\CRUD-areco\DB.sqlite3'
+      'LockingMode=Normal'
+      'DriverID=SQLite')
+    Connected = True
+    Left = 400
+    Top = 8
+  end
+  object FDQueryProductInsert: TFDQuery
+    Connection = FDConnectionSQLite
+    SQL.Strings = (
+      'INSERT INTO `products` (`name`, `descr`) VALUES (:name, :descr)')
+    Left = 400
+    Top = 72
+    ParamData = <
+      item
+        Name = 'NAME'
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'DESCR'
+        ParamType = ptInput
+      end>
   end
 end

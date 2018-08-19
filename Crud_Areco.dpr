@@ -2,7 +2,8 @@ program Crud_Areco;
 
 uses
   Vcl.Forms,
-  List in 'List.pas' {FormList};
+  List in 'List.pas' {FormList},
+  Register in 'Register.pas' {FormRegister};
 
 {$R *.res}
 

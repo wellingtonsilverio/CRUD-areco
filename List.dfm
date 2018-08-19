@@ -28,63 +28,31 @@ object FormList: TFormList
     Font.Style = []
     ParentFont = False
   end
-  object DBGridProducts: TDBGrid
-    Left = 8
-    Top = 59
-    Width = 751
-    Height = 414
-    DataSource = DataSourceProducts
-    TabOrder = 0
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'Tahoma'
-    TitleFont.Style = []
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'id'
-        Width = 66
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'name'
-        Width = 134
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'descr'
-        Width = 305
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'stock'
-        Width = 101
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'price'
-        Width = 92
-        Visible = True
-      end>
-  end
   object ButtonPushRegister: TButton
     Left = 504
     Top = 479
     Width = 255
     Height = 44
     Caption = 'Cadastrar novo produto'
-    TabOrder = 1
+    TabOrder = 0
     OnClick = ButtonPushRegisterClick
+  end
+  object StringGridProduct: TStringGrid
+    Left = 8
+    Top = 59
+    Width = 751
+    Height = 414
+    TabOrder = 1
+    ColWidths = (
+      64
+      172
+      295
+      103
+      105)
   end
   object DataSourceProducts: TDataSource
     AutoEdit = False
     DataSet = FDTableProducts
-    Enabled = False
     Left = 688
     Top = 352
   end
@@ -92,6 +60,8 @@ object FormList: TFormList
     Params.Strings = (
       'Database=C:\GitHub\CRUD-areco\DB.sqlite3'
       'LockingMode=Normal'
+      'Synchronous=Full'
+      'StringFormat=Unicode'
       'DriverID=SQLite')
     Connected = True
     Left = 688
@@ -106,5 +76,33 @@ object FormList: TFormList
     TableName = 'products'
     Left = 688
     Top = 472
+    object FDTableProductsid: TFDAutoIncField
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = [pfInWhere, pfInKey]
+    end
+    object FDTableProductsname: TWideMemoField
+      FieldName = 'name'
+      Origin = 'name'
+      BlobType = ftWideMemo
+    end
+    object FDTableProductsdescr: TWideMemoField
+      FieldName = 'descr'
+      Origin = 'descr'
+      BlobType = ftWideMemo
+    end
+    object FDTableProductsstock: TIntegerField
+      FieldName = 'stock'
+      Origin = 'stock'
+    end
+    object FDTableProductsprice: TFloatField
+      FieldName = 'price'
+      Origin = 'price'
+    end
+  end
+  object OnInit: TTimer
+    OnTimer = OnInitTimer
+    Left = 688
+    Top = 296
   end
 end

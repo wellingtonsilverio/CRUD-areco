@@ -10,7 +10,7 @@ uses
   FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs, FireDAC.VCLUI.Wait,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, Data.DB,
   Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  Vcl.StdCtrls, Vcl.ExtCtrls;
+  Vcl.StdCtrls, Vcl.ExtCtrls, consts;
 
 type
   TFormList = class(TForm)
@@ -24,6 +24,7 @@ type
     FDTableProductsstock: TIntegerField;
     FDTableProductsprice: TFloatField;
     StringGridProduct: TStringGrid;
+    FDQueryProductDelete: TFDQuery;
     procedure ButtonPushRegisterClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
 
@@ -102,8 +103,8 @@ Begin
     //Button of Edit
     Button := TButton.Create(StringGridProduct);
     Button.BoundsRect := R1;
-    Button.Caption := 'Editar';
-    Button.Tag := FDTableProducts.FieldByName('id').AsInteger;
+    Button.Caption := 'I';
+    Button.Tag := strtoint(FDTableProducts.FieldByName('id').asString);
     Button.ControlStyle := [csClickEvents];
     Button.OnClick := GridButtonEditClick;
     Button.Parent := StringGridProduct;
@@ -114,7 +115,7 @@ Begin
     Button := TButton.Create(StringGridProduct);
     Button.BoundsRect := R2;
     Button.Caption := '-';
-    Button.Tag := FDTableProducts.FieldByName('id').ToString;
+    Button.Tag := strtoint(FDTableProducts.FieldByName('id').asString);
     Button.ControlStyle := [csClickEvents];
     Button.OnClick := GridButtonDeleteClick;
     Button.Parent := StringGridProduct;
@@ -138,15 +139,34 @@ var
   Button: TButton;
 begin
   Button := TButton(Sender);
-  ShowMessage(Button.Tag);
+  ShowMessage(Button.Tag.ToString);
 end;
 
 procedure TFormList.GridButtonDeleteClick(Sender: TObject);
 var
   Button: TButton;
+  confirmDialog : Integer;
+  id: string;
 begin
   Button := TButton(Sender);
-  ShowMessage(Button.Tag);
+  id := Button.Tag.ToString;
+
+  //translate button mensage
+  TFormRegister.SetResourceString(@SMsgDlgYes, 'Sim');
+  TFormRegister.SetResourceString(@SMsgDlgNo, 'Não');
+
+  // Show a re-register dialog
+  confirmDialog := messagedlg('Deseja mesmo excluir o produto com código: ' + id + '?',
+    mtInformation, [ mbYes, mbNO ], 0);
+
+  // Show the button type selected
+  if confirmDialog = 6  then
+  begin
+    FDQueryProductDelete.Params.ParamByName('id').Value := id;
+    FDQueryProductDelete.ExecSQL;
+    ShowMessage('Produto excluido com sucesso!');
+    StringGridSetup()
+  end;
 end;
 
 end.

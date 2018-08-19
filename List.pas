@@ -156,7 +156,7 @@ begin
   TFormRegister.SetResourceString(@SMsgDlgNo, 'Não');
 
   // Show a re-register dialog
-  confirmDialog := messagedlg('Deseja mesmo excluir o produto com Código: ' + id + '?',
+  confirmDialog := messagedlg('Deseja excluir o produto com código: ' + id + '?',
     mtInformation, [ mbYes, mbNO ], 0);
 
   // Show the button type selected
@@ -164,7 +164,7 @@ begin
   begin
     FDQueryProductDelete.Params.ParamByName('id').Value := id;
     FDQueryProductDelete.ExecSQL;
-    ShowMessage('Produto Excluido com sucesso!');
+    ShowMessage('Produto excluido com sucesso!');
     StringGridSetup()
   end;
 end;

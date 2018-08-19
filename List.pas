@@ -49,7 +49,7 @@ begin
     try
       ShowModal;
     finally
-      Free;
+      Release;
     end;
 end;
 

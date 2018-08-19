@@ -83,13 +83,13 @@ Begin
   i := 1;
   while not FDTableProducts.eof do
   begin
-  StringGridProduct.cells[0, i] := FDTableProducts.FieldByName('id').asString;
-  StringGridProduct.cells[1, i] := FDTableProducts.FieldByName('name').asString;
-  StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').asString;
-  StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asString;
-  StringGridProduct.cells[4, i] := FDTableProducts.FieldByName('price').asString;
-  FDTableProducts.next;
-  i := i + 1;
+    StringGridProduct.cells[0, i] := FDTableProducts.FieldByName('id').asString;
+    StringGridProduct.cells[1, i] := FDTableProducts.FieldByName('name').asString;
+    StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').asString;
+    StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asString;
+    StringGridProduct.cells[4, i] := FDTableProducts.FieldByName('price').asString;
+    FDTableProducts.next;
+    i := i + 1;
   end;
 
   //Set number of lines in Grid

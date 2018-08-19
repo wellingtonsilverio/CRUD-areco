@@ -9,7 +9,7 @@ uses
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
   FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
   FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls;
 
 type
   TFormRegister = class(TForm)
@@ -20,7 +20,7 @@ type
     FDConnectionSQLite: TFDConnection;
     FDQueryProductInsert: TFDQuery;
     EditName: TEdit;
-    EditDescr: TEdit;
+    RichEditDescr: TRichEdit;
     procedure ButtonCancelClick(Sender: TObject);
     procedure ButtonRegisterClick(Sender: TObject);
   private
@@ -36,8 +36,11 @@ implementation
 
 {$R *.dfm}
 
+uses List;
+
 procedure TFormRegister.ButtonCancelClick(Sender: TObject);
 begin
+  FormList.StringGridSetup();
   Close
 end;
 

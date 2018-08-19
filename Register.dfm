@@ -54,12 +54,21 @@ object FormRegister: TFormRegister
     Height = 21
     TabOrder = 2
   end
-  object EditDescr: TEdit
+  object RichEditDescr: TRichEdit
     Left = 16
     Top = 73
     Width = 451
-    Height = 21
+    Height = 153
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Lines.Strings = (
+      'RichEditDescr')
+    ParentFont = False
     TabOrder = 3
+    Zoom = 100
   end
   object FDConnectionSQLite: TFDConnection
     Params.Strings = (

@@ -36,11 +36,8 @@ implementation
 
 {$R *.dfm}
 
-uses List;
-
 procedure TFormRegister.ButtonCancelClick(Sender: TObject);
 begin
-  FormList.StringGridSetup();
   Close
 end;
 

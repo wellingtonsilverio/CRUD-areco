@@ -19,9 +19,10 @@ type
     ButtonCancel: TButton;
     FDConnectionSQLite: TFDConnection;
     FDQueryProductInsert: TFDQuery;
-    Edit1: TEdit;
-    Edit2: TEdit;
+    EditName: TEdit;
+    EditDescr: TEdit;
     procedure ButtonCancelClick(Sender: TObject);
+    procedure ButtonRegisterClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -38,6 +39,13 @@ implementation
 procedure TFormRegister.ButtonCancelClick(Sender: TObject);
 begin
   Close
+end;
+
+procedure TFormRegister.ButtonRegisterClick(Sender: TObject);
+begin
+  FDQueryProductInsert.Params.ParamByName('name').Value := EditName.Text;
+  FDQueryProductInsert.Params.ParamByName('descr').Value := EditDescr.Text;
+  FDQueryProductInsert.ExecSQL;
 end;
 
 end.

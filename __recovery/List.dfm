@@ -50,12 +50,6 @@ object FormList: TFormList
       103
       105)
   end
-  object DataSourceProducts: TDataSource
-    AutoEdit = False
-    DataSet = FDTableProducts
-    Left = 688
-    Top = 352
-  end
   object FDConnectionSQLite: TFDConnection
     Params.Strings = (
       'Database=C:\GitHub\CRUD-areco\DB.sqlite3'
@@ -63,12 +57,10 @@ object FormList: TFormList
       'Synchronous=Full'
       'StringFormat=Unicode'
       'DriverID=SQLite')
-    Connected = True
     Left = 688
     Top = 408
   end
   object FDTableProducts: TFDTable
-    Active = True
     AutoCalcFields = False
     IndexFieldNames = 'id'
     Connection = FDConnectionSQLite
@@ -104,6 +96,6 @@ object FormList: TFormList
     Interval = 1
     OnTimer = OnInitTimer
     Left = 688
-    Top = 296
+    Top = 352
   end
 end

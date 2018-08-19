@@ -36,6 +36,7 @@ object FormRegister: TFormRegister
     Height = 55
     Caption = 'Cadastrar'
     TabOrder = 0
+    OnClick = ButtonRegisterClick
   end
   object ButtonCancel: TButton
     Left = 166
@@ -46,21 +47,19 @@ object FormRegister: TFormRegister
     TabOrder = 1
     OnClick = ButtonCancelClick
   end
-  object Edit1: TEdit
+  object EditName: TEdit
     Left = 16
     Top = 27
     Width = 451
     Height = 21
     TabOrder = 2
-    Text = 'EditName'
   end
-  object Edit2: TEdit
+  object EditDescr: TEdit
     Left = 16
     Top = 73
     Width = 451
-    Height = 153
+    Height = 21
     TabOrder = 3
-    Text = 'EditDescr'
   end
   object FDConnectionSQLite: TFDConnection
     Params.Strings = (

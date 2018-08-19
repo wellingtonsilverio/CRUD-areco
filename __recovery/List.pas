@@ -15,7 +15,6 @@ uses
 type
   TFormList = class(TForm)
     Label1: TLabel;
-    DataSourceProducts: TDataSource;
     FDConnectionSQLite: TFDConnection;
     FDTableProducts: TFDTable;
     ButtonPushRegister: TButton;
@@ -28,10 +27,11 @@ type
     OnInit: TTimer;
     procedure ButtonPushRegisterClick(Sender: TObject);
     procedure OnInitTimer(Sender: TObject);
+
   private
-    i: Integer;
     { Private declarations }
   public
+    procedure StringGridSetup();
     { Public declarations }
   end;
 
@@ -56,11 +56,30 @@ end;
 
 procedure TFormList.OnInitTimer(Sender: TObject);
 begin
+  StringGridSetup();
+
+  //Don't Execute over
+  OnInit.Enabled := False;
+end;
+
+procedure TFormList.StringGridSetup();
+Var
+  i: Integer;
+Begin
+  //Connect to DB
+  FDConnectionSQLite.Connected := True;
+
+  //Execute Query
+  FDTableProducts.Active := True;
+
+  //Titles
   StringGridProduct.cells[0, 0] := 'Código';
   StringGridProduct.cells[1, i] := 'Nome';
   StringGridProduct.cells[2, i] := 'Descrição';
   StringGridProduct.cells[3, i] := 'Em Estoque';
   StringGridProduct.cells[4, i] := 'Preço';
+
+  //Data of database SQLite
   i := 1;
   while not FDTableProducts.eof do
   begin
@@ -73,7 +92,12 @@ begin
   i := i + 1;
   end;
 
-  OnInit.Enabled := False;
-end;
+  //Set number of lines in Grid
+  StringGridProduct.RowCount := i;
+
+  //Close connections and Query
+  FDTableProducts.Active := False;
+  FDConnectionSQLite.Connected := False;
+End;
 
 end.

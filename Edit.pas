@@ -60,8 +60,6 @@ procedure TFormEdit.FormShow(Sender: TObject);
 begin
   FDConnectionSQLite.Connected := True;
 
-  ShowMessage(Id);
-
   FDQuerySelect.Params.ParamByName('id').Value := Id;
   FDQuerySelect.Open;
 

@@ -21,6 +21,8 @@ type
     FDQueryProductInsert: TFDQuery;
     EditName: TEdit;
     RichEditDescr: TRichEdit;
+    Label3: TLabel;
+    EditPrice: TEdit;
     procedure ButtonRegisterClick(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
   private
@@ -52,10 +54,12 @@ begin
   //Check if fields is empty
   if isEmpty(EditName.Text) then exit;
   if isEmpty(RichEditDescr.Text) then exit;
+  if isEmpty(EditPrice.Text) then exit;
 
   //Define params and execute insert
   FDQueryProductInsert.Params.ParamByName('name').Value := EditName.Text;
   FDQueryProductInsert.Params.ParamByName('descr').Value := RichEditDescr.Text;
+  FDQueryProductInsert.Params.ParamByName('price').Value := EditPrice.Text;
   FDQueryProductInsert.ExecSQL;
 
   //translate button mensage
@@ -71,6 +75,7 @@ begin
   begin
     EditName.Text := '';
     RichEditDescr.Text := '';
+    EditPrice.Text := '';
   end;
   if confirmDialog = 7 then closeAndRefresh();
 end;

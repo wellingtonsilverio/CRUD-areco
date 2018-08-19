@@ -85,7 +85,13 @@ begin
 
   if IdRow > 0 then
   begin
-    showMessage(StringGridProduct.Cells[0, IdRow]);
+    try
+      Application.CreateForm(TFormEdit, FormEdit);
+      FormEdit.Id := StringGridProduct.Cells[0, IdRow];
+      FormEdit.ShowModal;
+    finally
+      FormEdit.Release;
+    end;
   end;
 end;
 

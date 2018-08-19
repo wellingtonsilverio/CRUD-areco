@@ -3,7 +3,7 @@ object FormRegister: TFormRegister
   Top = 0
   BorderIcons = []
   Caption = 'Cadastro de produto'
-  ClientHeight = 295
+  ClientHeight = 343
   ClientWidth = 475
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -29,9 +29,16 @@ object FormRegister: TFormRegister
     Height = 13
     Caption = 'Descri'#231#227'o:'
   end
+  object Label3: TLabel
+    Left = 16
+    Top = 232
+    Width = 31
+    Height = 13
+    Caption = 'Pre'#231'o:'
+  end
   object ButtonRegister: TButton
     Left = 287
-    Top = 232
+    Top = 278
     Width = 180
     Height = 55
     Caption = 'Cadastrar'
@@ -40,7 +47,7 @@ object FormRegister: TFormRegister
   end
   object ButtonCancel: TButton
     Left = 166
-    Top = 232
+    Top = 278
     Width = 115
     Height = 55
     Caption = 'Voltar'
@@ -68,6 +75,13 @@ object FormRegister: TFormRegister
     TabOrder = 3
     Zoom = 100
   end
+  object EditPrice: TEdit
+    Left = 16
+    Top = 251
+    Width = 451
+    Height = 21
+    TabOrder = 4
+  end
   object FDConnectionSQLite: TFDConnection
     Params.Strings = (
       'Database=C:\GitHub\CRUD-areco\DB.sqlite3'
@@ -80,7 +94,9 @@ object FormRegister: TFormRegister
   object FDQueryProductInsert: TFDQuery
     Connection = FDConnectionSQLite
     SQL.Strings = (
-      'INSERT INTO `products` (`name`, `descr`) VALUES (:name, :descr)')
+      
+        'INSERT INTO `products` (`name`, `descr`, `price`) VALUES (:name,' +
+        ' :descr, :price)')
     Left = 400
     Top = 72
     ParamData = <
@@ -91,6 +107,10 @@ object FormRegister: TFormRegister
       end
       item
         Name = 'DESCR'
+        ParamType = ptInput
+      end
+      item
+        Name = 'PRICE'
         ParamType = ptInput
       end>
   end

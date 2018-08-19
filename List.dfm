@@ -43,16 +43,31 @@ object FormList: TFormList
     Top = 59
     Width = 751
     Height = 414
-    ColCount = 7
     TabOrder = 1
     ColWidths = (
       64
-      183
-      249
-      69
-      63
-      48
-      44)
+      203
+      289
+      86
+      80)
+  end
+  object ButtonEdit: TButton
+    Left = 8
+    Top = 479
+    Width = 145
+    Height = 44
+    Caption = 'Editar selecionado'
+    TabOrder = 2
+    OnClick = ButtonEditClick
+  end
+  object ButtonDelete: TButton
+    Left = 159
+    Top = 479
+    Width = 114
+    Height = 44
+    Caption = 'Exluir selecionado'
+    TabOrder = 3
+    OnClick = ButtonDeleteClick
   end
   object FDConnectionSQLite: TFDConnection
     Params.Strings = (

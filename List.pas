@@ -25,12 +25,15 @@ type
     FDTableProductsprice: TFloatField;
     StringGridProduct: TStringGrid;
     FDQueryProductDelete: TFDQuery;
+    ButtonEdit: TButton;
+    ButtonDelete: TButton;
     procedure ButtonPushRegisterClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure ButtonEditClick(Sender: TObject);
+    procedure ButtonDeleteClick(Sender: TObject);
 
   private
-    procedure GridButtonEditClick(Sender: TObject);
-    procedure GridButtonDeleteClick(Sender: TObject);
+    //Private vars
   public
     procedure StringGridSetup();
   end;
@@ -42,7 +45,49 @@ implementation
 
 {$R *.dfm}
 
-uses Register;
+uses Register, Edit;
+
+procedure TFormList.ButtonDeleteClick(Sender: TObject);
+var
+  IdRow: Integer;
+  confirmDialog: Integer;
+  id: string;
+begin
+  IdRow := StringGridProduct.Selection.Top;
+
+  if IdRow > 0 then
+  begin
+    id := StringGridProduct.Cells[0, IdRow];
+    //translate button mensage
+    TFormRegister.SetResourceString(@SMsgDlgYes, 'Sim');
+    TFormRegister.SetResourceString(@SMsgDlgNo, 'Não');
+
+    // Show a re-register dialog
+    confirmDialog := messagedlg('Deseja excluir o produto com código: ' + id + '?',
+      mtInformation, [ mbYes, mbNO ], 0);
+
+    // Show the button type selected
+    if confirmDialog = 6  then
+    begin
+      FDQueryProductDelete.Params.ParamByName('id').Value := id;
+      FDQueryProductDelete.ExecSQL;
+      ShowMessage('Produto excluido com sucesso!');
+      StringGridSetup()
+    end;
+  end;
+end;
+
+procedure TFormList.ButtonEditClick(Sender: TObject);
+var
+  IdRow: Integer;
+begin
+  IdRow := StringGridProduct.Selection.Top;
+
+  if IdRow > 0 then
+  begin
+    showMessage(StringGridProduct.Cells[0, IdRow]);
+  end;
+end;
 
 procedure TFormList.ButtonPushRegisterClick(Sender: TObject);
 begin
@@ -72,23 +117,12 @@ Begin
   //Execute Query
   FDTableProducts.Active := True;
 
-  //Buttons
-  R1 := StringGridProduct.CellRect(5, StringGridProduct.FixedRows);
-  Inc(R1.Right, StringGridProduct.GridLineWidth);
-  Inc(R1.Bottom, StringGridProduct.GridLineWidth);
-
-  R2 := StringGridProduct.CellRect(6, StringGridProduct.FixedRows);
-  Inc(R2.Right, StringGridProduct.GridLineWidth);
-  Inc(R2.Bottom, StringGridProduct.GridLineWidth);
-
   //Titles
   StringGridProduct.cells[0, 0] := 'Código';
   StringGridProduct.cells[1, 0] := 'Nome';
   StringGridProduct.cells[2, 0] := 'Descrição';
   StringGridProduct.cells[3, 0] := 'Em Estoque';
   StringGridProduct.cells[4, 0] := 'Preço';
-  StringGridProduct.cells[5, 0] := 'Editar';
-  StringGridProduct.cells[6, 0] := 'Excluir';
 
   //Data of database SQLite
   i := 1;
@@ -99,28 +133,6 @@ Begin
     StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').asString;
     StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asString;
     StringGridProduct.cells[4, i] := FDTableProducts.FieldByName('price').asString;
-
-    //Button of Edit
-    Button := TButton.Create(StringGridProduct);
-    Button.BoundsRect := R1;
-    Button.Caption := 'I';
-    Button.Tag := strtoint(FDTableProducts.FieldByName('id').asString);
-    Button.ControlStyle := [csClickEvents];
-    Button.OnClick := GridButtonEditClick;
-    Button.Parent := StringGridProduct;
-    StringGridProduct.Objects[0, i] := Button;
-    OffsetRect(R1, 0, StringGridProduct.DefaultRowHeight + StringGridProduct.GridLineWidth);
-
-    //Button of Delete
-    Button := TButton.Create(StringGridProduct);
-    Button.BoundsRect := R2;
-    Button.Caption := '-';
-    Button.Tag := strtoint(FDTableProducts.FieldByName('id').asString);
-    Button.ControlStyle := [csClickEvents];
-    Button.OnClick := GridButtonDeleteClick;
-    Button.Parent := StringGridProduct;
-    StringGridProduct.Objects[0, i] := Button;
-    OffsetRect(R2, 0, StringGridProduct.DefaultRowHeight + StringGridProduct.GridLineWidth);
 
     FDTableProducts.next;
     i := i + 1;
@@ -134,39 +146,5 @@ Begin
   FDConnectionSQLite.Connected := False;
 End;
 
-procedure TFormList.GridButtonEditClick(Sender: TObject);
-var
-  Button: TButton;
-begin
-  Button := TButton(Sender);
-  ShowMessage(Button.Tag.ToString);
-end;
-
-procedure TFormList.GridButtonDeleteClick(Sender: TObject);
-var
-  Button: TButton;
-  confirmDialog : Integer;
-  id: string;
-begin
-  Button := TButton(Sender);
-  id := Button.Tag.ToString;
-
-  //translate button mensage
-  TFormRegister.SetResourceString(@SMsgDlgYes, 'Sim');
-  TFormRegister.SetResourceString(@SMsgDlgNo, 'Não');
-
-  // Show a re-register dialog
-  confirmDialog := messagedlg('Deseja excluir o produto com código: ' + id + '?',
-    mtInformation, [ mbYes, mbNO ], 0);
-
-  // Show the button type selected
-  if confirmDialog = 6  then
-  begin
-    FDQueryProductDelete.Params.ParamByName('id').Value := id;
-    FDQueryProductDelete.ExecSQL;
-    ShowMessage('Produto excluido com sucesso!');
-    StringGridSetup()
-  end;
-end;
 
 end.

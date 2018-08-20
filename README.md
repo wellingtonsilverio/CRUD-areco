@@ -1,6 +1,13 @@
 # CRUD-areco
 CRUD for Selective process Areco
 
+## Screenshots
+
+![HOME](https://raw.githubusercontent.com/wellingtonsilverio/CRUD-areco/master/screenshots/home_list.png)
+![Edit Product](https://raw.githubusercontent.com/wellingtonsilverio/CRUD-areco/master/screenshots/edit.png)
+![Create New Product](https://raw.githubusercontent.com/wellingtonsilverio/CRUD-areco/master/screenshots/register.png)
+
+
 ## Version
 ### 1:
 * Register Products

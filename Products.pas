@@ -15,6 +15,7 @@ type
     public procedure setStock(_Stock: Integer);
     public procedure setPrice(_Price: Integer);
     public procedure setProducts(_Id: Integer; _Name: String; _Descr: String; _Stock: Integer; _Price: Integer);
+    public procedure addOneStock();
     private Id: Integer;
     private Name: String;
     private Descr: String;
@@ -68,8 +69,15 @@ procedure TProducts.setStock(_Stock: Integer);
 begin
   Stock := _Stock;
 end;
+procedure TProducts.addOneStock();
+begin
+  Stock := Stock + 1;
+end;
 procedure TProducts.setPrice(_Price: Integer);
 begin
+  //do not burst the memory
+  if _Price > 1000000000 then _Price := 1000000000;
+
   Price := _Price;
 end;
 procedure TProducts.setProducts(_Id: Integer; _Name: String; _Descr: String; _Stock: Integer; _Price: Integer);

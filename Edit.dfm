@@ -144,11 +144,11 @@ object FormEdit: TFormEdit
       OnClick = ButtonEditClick
     end
     object Label3: TLabel
-      Left = 94
+      Left = 112
       Top = 19
-      Width = 67
+      Width = 40
       Height = 21
-      Caption = 'Cadastrar'
+      Caption = 'Editar'
       OnClick = ButtonEditClick
     end
   end

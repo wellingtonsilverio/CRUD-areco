@@ -62,7 +62,7 @@ begin
   objProducts.setId(strtoint(Id));
   objProducts.setName(EditName.Text);
   objProducts.setDescr(RichEditDescr.Text);
-  objProducts.setPrice(strtoint(MaskEditPrice.Text));
+  objProducts.setPrice(Round(strtofloat(MaskEditPrice.Text)*100));
 
   //Check if fields is empty
   if isEmpty(objProducts.getName()) then exit;
@@ -76,7 +76,7 @@ begin
   FDQueryProductEdit.Params.ParamByName('id').Value := objProducts.getId();
   FDQueryProductEdit.Params.ParamByName('name').Value := objProducts.getName();
   FDQueryProductEdit.Params.ParamByName('descr').Value := objProducts.getDescr();
-  FDQueryProductEdit.Params.ParamByName('price').Value := objProducts.getPrice() * 100 ;
+  FDQueryProductEdit.Params.ParamByName('price').Value := objProducts.getPrice();
   FDQueryProductEdit.ExecSQL;
 
   FDConnectionSQLite.Connected := False;

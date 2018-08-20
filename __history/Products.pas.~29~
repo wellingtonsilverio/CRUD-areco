@@ -1,0 +1,83 @@
+unit Products;
+
+interface
+
+type
+  TProducts = class
+    public function getId(): Integer;
+    public function getName(): String;
+    public function getDescr(): String;
+    public function getStock(): Integer;
+    public function getPrice(): Integer;
+    public procedure setId(_Id: Integer);
+    public procedure setName(_Name: String);
+    public procedure setDescr(_Descr: String);
+    public procedure setStock(_Stock: Integer);
+    public procedure setPrice(_Price: Integer);
+    public procedure setProducts(_Id: Integer; _Name: String; _Descr: String; _Stock: Integer; _Price: Integer);
+    private Id: Integer;
+    private Name: String;
+    private Descr: String;
+    private Stock: Integer;
+    private Price: Integer;
+    constructor Create;
+  end;
+
+implementation
+
+constructor TProducts.Create;
+begin
+   Inherited Create();
+end;
+
+//Getts
+function TProducts.getId(): Integer;
+begin
+  Result := Id;
+end;
+function TProducts.getName(): String;
+begin
+  Result := Name;
+end;
+function TProducts.getDescr(): String;
+begin
+  Result := Descr;
+end;
+function TProducts.getStock(): Integer;
+begin
+  Result := Stock;
+end;
+function TProducts.getPrice(): Integer;
+begin
+  Result := Price;
+end;
+//Setts
+procedure TProducts.setId(_Id: Integer);
+begin
+  Id := _Id;
+end;
+procedure TProducts.setName(_Name: String);
+begin
+  Name := _Name;
+end;
+procedure TProducts.setDescr(_Descr: String);
+begin
+  Descr := _Descr;
+end;
+procedure TProducts.setStock(_Stock: Integer);
+begin
+  Stock := _Stock;
+end;
+procedure TProducts.setPrice(_Price: Integer);
+begin
+  Price := _Price;
+end;
+procedure TProducts.setProducts(_Id: Integer; _Name: String; _Descr: String; _Stock: Integer; _Price: Integer);
+begin
+  Id := _Id;
+  Name := _Name;
+  Descr := _Descr;
+  Stock := _Stock;
+  Price := _Price;
+end;
+end.

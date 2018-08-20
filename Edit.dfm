@@ -230,10 +230,9 @@ object FormEdit: TFormEdit
   end
   object FDConnectionSQLite: TFDConnection
     Params.Strings = (
-      'Database=C:\GitHub\CRUD-areco\DB.sqlite3'
+      'Database=$(RUN)/DB.sqlite3'
       'LockingMode=Normal'
       'DriverID=SQLite')
-    Connected = True
     Left = 504
     Top = 264
   end

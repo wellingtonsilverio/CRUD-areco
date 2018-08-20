@@ -10,15 +10,13 @@ uses
   FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs, FireDAC.VCLUI.Wait,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, Data.DB,
   Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  Vcl.StdCtrls, Vcl.ExtCtrls, consts;
+  Vcl.StdCtrls, Vcl.ExtCtrls, consts, Vcl.Imaging.pngimage;
 
 type
   TFormList = class(TForm)
     Label1: TLabel;
     ButtonPushRegister: TButton;
     FDQueryProductDelete: TFDQuery;
-    ButtonEdit: TButton;
-    ButtonDelete: TButton;
     FDConnectionSQLite: TFDConnection;
     StringGridProduct: TStringGrid;
     FDTableProducts: TFDTable;
@@ -27,10 +25,22 @@ type
     FDTableProductsdescr: TWideMemoField;
     FDTableProductsstock: TIntegerField;
     FDTableProductsprice: TIntegerField;
+    FDQueryProductSelect: TFDQuery;
+    Image1: TImage;
+    Label2: TLabel;
+    ImageButtonExit: TImage;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Image2: TImage;
+    Label3: TLabel;
+    Image3: TImage;
+    Label4: TLabel;
     procedure ButtonPushRegisterClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ButtonEditClick(Sender: TObject);
     procedure ButtonDeleteClick(Sender: TObject);
+    procedure ImageButtonExitClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
 
   private
     //Private vars
@@ -108,9 +118,24 @@ begin
   end;
 end;
 
+procedure TFormList.FormCreate(Sender: TObject);
+var
+  regn: HRGN;
+begin
+  FormList.Borderstyle := bsNone;
+  regn := CreateRoundRectRgn(0, 0,ClientWidth,ClientHeight,10,10);
+  SetWindowRgn(Handle, regn, True);
+end;
+
 procedure TFormList.FormShow(Sender: TObject);
 begin
   StringGridSetup();
+end;
+
+procedure TFormList.ImageButtonExitClick(Sender: TObject);
+begin
+  Application.Terminate;
+  Exit;
 end;
 
 procedure TFormList.StringGridSetup();
@@ -130,7 +155,7 @@ Begin
   StringGridProduct.cells[0, 0] := 'Código';
   StringGridProduct.cells[1, 0] := 'Nome';
   StringGridProduct.cells[2, 0] := 'Descrição';
-  StringGridProduct.cells[3, 0] := 'Em Estoque';
+  StringGridProduct.cells[3, 0] := 'Estoque';
   StringGridProduct.cells[4, 0] := 'Preço';
 
   //Data of database SQLite

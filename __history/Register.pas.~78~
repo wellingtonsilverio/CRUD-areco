@@ -1,0 +1,143 @@
+unit Register;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
+  FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
+  FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
+  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls, consts,
+  Vcl.Mask, Vcl.Imaging.pngimage, Vcl.ExtCtrls;
+
+type
+  TFormRegister = class(TForm)
+    Label1: TLabel;
+    Label2: TLabel;
+    FDConnectionSQLite: TFDConnection;
+    FDQueryProductInsert: TFDQuery;
+    EditName: TEdit;
+    RichEditDescr: TRichEdit;
+    Label3: TLabel;
+    MaskEditPrice: TMaskEdit;
+    Panel1: TPanel;
+    Image2: TImage;
+    Label4: TLabel;
+    Panel2: TPanel;
+    Image1: TImage;
+    Label5: TLabel;
+    Label6: TLabel;
+    Panel3: TPanel;
+    procedure ButtonRegisterClick(Sender: TObject);
+    procedure ButtonCancelClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Label5Click(Sender: TObject);
+  private
+    class function isEmpty(text: string): Boolean;
+    class procedure closeAndRefresh();
+  public
+    class procedure SetResourceString(xOldResourceString: PResStringRec;
+                                         xValueChanged: PChar);
+  end;
+
+var
+  FormRegister: TFormRegister;
+
+implementation
+
+{$R *.dfm}
+
+uses List, Products;
+
+procedure TFormRegister.ButtonCancelClick(Sender: TObject);
+begin
+  closeAndRefresh()
+end;
+
+procedure TFormRegister.ButtonRegisterClick(Sender: TObject);
+var
+  confirmDialog : Integer;
+begin
+  //Check if fields is empty
+  if isEmpty(EditName.Text) then exit;
+  if isEmpty(RichEditDescr.Text) then exit;
+  if isEmpty(MaskEditPrice.Text) then exit;
+
+  //Define params and execute insert
+  FDQueryProductInsert.Params.ParamByName('name').Value := EditName.Text;
+  FDQueryProductInsert.Params.ParamByName('descr').Value := RichEditDescr.Text;
+  FDQueryProductInsert.Params.ParamByName('price').Value := MaskEditPrice.Text;
+  FDQueryProductInsert.ExecSQL;
+
+  //translate button mensage
+  SetResourceString(@SMsgDlgYes, 'Sim');
+  SetResourceString(@SMsgDlgNo, 'Não');
+
+  // Show a re-register dialog
+  confirmDialog := messagedlg('Produto cadastrado com sucesso! deseja fazer outro cadastro?',
+    mtInformation, [ mbYes, mbNO ], 0);
+
+  // Show the button type selected
+  if confirmDialog = 6  then
+  begin
+    EditName.Text := '';
+    RichEditDescr.Text := '';
+    MaskEditPrice.Text := '';
+  end;
+  if confirmDialog = 7 then closeAndRefresh();
+end;
+
+//Procedure of translate
+class procedure TFormRegister.SetResourceString(xOldResourceString: PResStringRec;
+                                           xValueChanged: PChar);
+var
+  POldProtect: DWORD;
+begin
+  VirtualProtect(xOldResourceString, SizeOf(xOldResourceString^),
+                 PAGE_EXECUTE_READWRITE, @POldProtect);
+   xOldResourceString^.Identifier := Integer(xValueChanged);
+   VirtualProtect(xOldResourceString,SizeOf(xOldResourceString^),POldProtect,
+                  @POldProtect);
+end;
+
+//message of empty
+class function TFormRegister.isEmpty(text: string): Boolean;
+begin
+  if Length(text) < 1 then
+  begin
+    ShowMessage('Campo em branco');
+    Result := True;
+  end
+  else Result := False;
+end;
+
+procedure TFormRegister.Label5Click(Sender: TObject);
+begin
+
+end;
+
+//Close Dialog
+class procedure TFormRegister.closeAndRefresh();
+begin
+  try
+    FormList.StringGridSetup();
+  finally
+    FormRegister.Close;
+  end;
+end;
+
+procedure TFormRegister.FormCreate(Sender: TObject);
+var
+  regn: HRGN;
+  regn2: HRGN;
+begin
+  FormRegister.Borderstyle := bsNone;
+  regn := CreateRoundRectRgn(0, 0,ClientWidth,ClientHeight, 10, 10);
+  regn2 := CreateRoundRectRgn(-5, -5,ClientWidth+5,ClientHeight+5, 10, 10);
+  CombineRgn(regn2, regn2, regn, RGN_OR);
+  SetWindowRgn(Handle, regn, True);
+end;
+
+end.

@@ -10,7 +10,7 @@ uses
   FireDAC.Phys, FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef,
   FireDAC.Stan.ExprFuncs, FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS,
   FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Vcl.Mask;
+  FireDAC.Comp.Client, Vcl.Mask, Vcl.Imaging.pngimage, Vcl.ExtCtrls;
 
 type
   TFormEdit = class(TForm)
@@ -18,16 +18,23 @@ type
     Label2: TLabel;
     RichEditDescr: TRichEdit;
     EditName: TEdit;
-    ButtonEdit: TButton;
-    ButtonExit: TButton;
     FDConnectionSQLite: TFDConnection;
     FDQuerySelect: TFDQuery;
     FDQueryProductEdit: TFDQuery;
     Label4: TLabel;
     MaskEditPrice: TMaskEdit;
+    Label6: TLabel;
+    Panel3: TPanel;
+    Panel1: TPanel;
+    Image2: TImage;
+    Label3: TLabel;
+    Panel2: TPanel;
+    Image1: TImage;
+    Label5: TLabel;
     procedure ButtonExitClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ButtonEditClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     class procedure closeAndRefresh();
     class function isEmpty(text: string): Boolean;
@@ -84,6 +91,15 @@ begin
 end;
 
 //In OnShow Form
+procedure TFormEdit.FormCreate(Sender: TObject);
+var
+  regn: HRGN;
+begin
+  FormEdit.Borderstyle := bsNone;
+  regn := CreateRoundRectRgn(0, 0,ClientWidth,ClientHeight, 10, 10);
+  SetWindowRgn(Handle, regn, True);
+end;
+
 procedure TFormEdit.FormShow(Sender: TObject);
 begin
   //Open Connection

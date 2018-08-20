@@ -10,22 +10,30 @@ uses
   FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
   FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
   FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls, consts,
-  Vcl.Mask;
+  Vcl.Mask, Vcl.Imaging.pngimage, Vcl.ExtCtrls;
 
 type
   TFormRegister = class(TForm)
     Label1: TLabel;
     Label2: TLabel;
-    ButtonRegister: TButton;
-    ButtonCancel: TButton;
     FDConnectionSQLite: TFDConnection;
     FDQueryProductInsert: TFDQuery;
     EditName: TEdit;
     RichEditDescr: TRichEdit;
     Label3: TLabel;
     MaskEditPrice: TMaskEdit;
+    Panel1: TPanel;
+    Image2: TImage;
+    Label4: TLabel;
+    Panel2: TPanel;
+    Image1: TImage;
+    Label5: TLabel;
+    Label6: TLabel;
+    Panel3: TPanel;
     procedure ButtonRegisterClick(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Label5Click(Sender: TObject);
   private
     class function isEmpty(text: string): Boolean;
     class procedure closeAndRefresh();
@@ -105,6 +113,11 @@ begin
   else Result := False;
 end;
 
+procedure TFormRegister.Label5Click(Sender: TObject);
+begin
+
+end;
+
 //Close Dialog
 class procedure TFormRegister.closeAndRefresh();
 begin
@@ -113,6 +126,15 @@ begin
   finally
     FormRegister.Close;
   end;
+end;
+
+procedure TFormRegister.FormCreate(Sender: TObject);
+var
+  regn: HRGN;
+begin
+  FormRegister.Borderstyle := bsNone;
+  regn := CreateRoundRectRgn(0, 0,ClientWidth,ClientHeight, 10, 10);
+  SetWindowRgn(Handle, regn, True);
 end;
 
 end.

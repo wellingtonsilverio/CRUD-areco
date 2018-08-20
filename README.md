@@ -2,8 +2,10 @@
 CRUD for Selective process Areco
 
 ## Version
-###0.1:
-* 
+### 1:
+* Register Products
+* Edit Products
+* Delete Products
 
 ## Errors and Exceptions
 ### 1 - :

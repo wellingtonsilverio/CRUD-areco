@@ -597,7 +597,7 @@ object FormList: TFormList
     Width = 200
     Height = 200
     BevelOuter = bvNone
-    Color = 12156969
+    Color = 6830118
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -16
@@ -696,7 +696,7 @@ object FormList: TFormList
     ParentCustomHint = False
     BevelOuter = bvNone
     BiDiMode = bdLeftToRight
-    Color = 3950567
+    Color = 6320875
     Ctl3D = True
     DoubleBuffered = False
     Font.Charset = ANSI_CHARSET

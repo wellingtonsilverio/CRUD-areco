@@ -33,7 +33,6 @@ type
     procedure ButtonRegisterClick(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure Label5Click(Sender: TObject);
   private
     class function isEmpty(text: string): Boolean;
     class procedure closeAndRefresh();
@@ -59,16 +58,25 @@ end;
 procedure TFormRegister.ButtonRegisterClick(Sender: TObject);
 var
   confirmDialog : Integer;
+  objProducts: TProducts;
 begin
+  //instantiate class
+  objProducts := TProducts.Create;
+
+  //Set vars
+  objProducts.setName(EditName.Text);
+  objProducts.setDescr(RichEditDescr.Text);
+  objProducts.setPrice(strtoint(MaskEditPrice.Text));
+
   //Check if fields is empty
-  if isEmpty(EditName.Text) then exit;
-  if isEmpty(RichEditDescr.Text) then exit;
-  if isEmpty(MaskEditPrice.Text) then exit;
+  if isEmpty(objProducts.getName()) then exit;
+  if isEmpty(objProducts.getDescr()) then exit;
+  if isEmpty(objProducts.getPrice().ToString) then exit;
 
   //Define params and execute insert
-  FDQueryProductInsert.Params.ParamByName('name').Value := EditName.Text;
-  FDQueryProductInsert.Params.ParamByName('descr').Value := RichEditDescr.Text;
-  FDQueryProductInsert.Params.ParamByName('price').Value := MaskEditPrice.Text;
+  FDQueryProductInsert.Params.ParamByName('name').Value := objProducts.getName();
+  FDQueryProductInsert.Params.ParamByName('descr').Value := objProducts.getDescr();
+  FDQueryProductInsert.Params.ParamByName('price').Value := objProducts.getPrice().ToString;
   FDQueryProductInsert.ExecSQL;
 
   //translate button mensage
@@ -111,11 +119,6 @@ begin
     Result := True;
   end
   else Result := False;
-end;
-
-procedure TFormRegister.Label5Click(Sender: TObject);
-begin
-
 end;
 
 //Close Dialog

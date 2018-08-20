@@ -59,11 +59,20 @@ end;
 procedure TFormRegister.ButtonRegisterClick(Sender: TObject);
 var
   confirmDialog : Integer;
+  objProducts: TProducts ;
 begin
+  //instantiate class
+  objProducts := TProducts.Create;
+
+  //Set vars
+  objProducts.setName(EditName.Text);
+  objProducts.setDescr(RichEditDescr.Text);
+  objProducts.setPrice(strtoint(MaskEditPrice.Text));
+
   //Check if fields is empty
-  if isEmpty(EditName.Text) then exit;
-  if isEmpty(RichEditDescr.Text) then exit;
-  if isEmpty(MaskEditPrice.Text) then exit;
+  if isEmpty(objProducts.getName()) then exit;
+  if isEmpty(objProducts.getDescr()) then exit;
+  if isEmpty(objProducts.getPrice().ToString) then exit;
 
   //Define params and execute insert
   FDQueryProductInsert.Params.ParamByName('name').Value := EditName.Text;
@@ -132,7 +141,7 @@ procedure TFormRegister.FormCreate(Sender: TObject);
 var
   regn: HRGN;
 begin
-  FormRegister.Borderstyle := bsToolWindow;
+  FormRegister.Borderstyle := bsNone;
   regn := CreateRoundRectRgn(0, 0,ClientWidth,ClientHeight, 10, 10);
   SetWindowRgn(Handle, regn, True);
 end;

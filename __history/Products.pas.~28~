@@ -22,6 +22,8 @@ type
     private Price: Integer;
     constructor Create;
   end;
+var
+  objProducts: TProducts;
 
 implementation
 
@@ -33,51 +35,51 @@ end;
 //Getts
 function TProducts.getId(): Integer;
 begin
-  Result := Id;
+  Result := objProducts.Id;
 end;
 function TProducts.getName(): String;
 begin
-  Result := Name;
+  Result := objProducts.Name;
 end;
 function TProducts.getDescr(): String;
 begin
-  Result := Descr;
+  Result := objProducts.Descr;
 end;
 function TProducts.getStock(): Integer;
 begin
-  Result := Stock;
+  Result := objProducts.Stock;
 end;
 function TProducts.getPrice(): Integer;
 begin
-  Result := Price;
+  Result := objProducts.Price;
 end;
 //Setts
 procedure TProducts.setId(_Id: Integer);
 begin
-  Id := _Id;
+  objProducts.Id := _Id;
 end;
 procedure TProducts.setName(_Name: String);
 begin
-  Name := _Name;
+  objProducts.Name := _Name;
 end;
 procedure TProducts.setDescr(_Descr: String);
 begin
-  Descr := _Descr;
+  objProducts.Descr := _Descr;
 end;
 procedure TProducts.setStock(_Stock: Integer);
 begin
-  Stock := _Stock;
+  objProducts.Stock := _Stock;
 end;
 procedure TProducts.setPrice(_Price: Integer);
 begin
-  Price := _Price;
+  objProducts.Price := _Price;
 end;
 procedure TProducts.setProducts(_Id: Integer; _Name: String; _Descr: String; _Stock: Integer; _Price: Integer);
 begin
-  Id := _Id;
-  Name := _Name;
-  Descr := _Descr;
-  Stock := _Stock;
-  Price := _Price;
+  objProducts.Id := _Id;
+  objProducts.Name := _Name;
+  objProducts.Descr := _Descr;
+  objProducts.Stock := _Stock;
+  objProducts.Price := _Price;
 end;
 end.

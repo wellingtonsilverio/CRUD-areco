@@ -10,7 +10,7 @@ uses
   FireDAC.Phys, FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef,
   FireDAC.Stan.ExprFuncs, FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS,
   FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Vcl.Mask;
+  FireDAC.Comp.Client, Vcl.Mask, Vcl.Imaging.pngimage, Vcl.ExtCtrls;
 
 type
   TFormEdit = class(TForm)
@@ -18,16 +18,23 @@ type
     Label2: TLabel;
     RichEditDescr: TRichEdit;
     EditName: TEdit;
-    ButtonEdit: TButton;
-    ButtonExit: TButton;
     FDConnectionSQLite: TFDConnection;
     FDQuerySelect: TFDQuery;
     FDQueryProductEdit: TFDQuery;
     Label4: TLabel;
     MaskEditPrice: TMaskEdit;
+    Label6: TLabel;
+    Panel3: TPanel;
+    Panel1: TPanel;
+    Image2: TImage;
+    Label3: TLabel;
+    Panel2: TPanel;
+    Image1: TImage;
+    Label5: TLabel;
     procedure ButtonExitClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ButtonEditClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     class procedure closeAndRefresh();
     class function isEmpty(text: string): Boolean;
@@ -42,27 +49,39 @@ implementation
 
 {$R *.dfm}
 
-uses List;
+uses List, Products;
 
 procedure TFormEdit.ButtonEditClick(Sender: TObject);
+var
+  objProducts: TProducts;
 begin
+  //instantiate class
+  objProducts := TProducts.Create;
+
+  //Set vars
+  objProducts.setName(EditName.Text);
+  objProducts.setDescr(RichEditDescr.Text);
+  objProducts.setPrice(strtoint(MaskEditPrice.Text));
   //Check if fields is empty
   if isEmpty(EditName.Text) then exit;
   if isEmpty(RichEditDescr.Text) then exit;
   if isEmpty(MaskEditPrice.Text) then exit;
 
+  //Opne Connection
   FDConnectionSQLite.Connected := True;
 
+  //Sett Params of Query and Execute
   FDQueryProductEdit.Params.ParamByName('id').Value := Id;
   FDQueryProductEdit.Params.ParamByName('name').Value := EditName.Text;
   FDQueryProductEdit.Params.ParamByName('descr').Value := RichEditDescr.Text;
-  FDQueryProductEdit.Params.ParamByName('price').Value := MaskEditPrice.Text;
+  FDQueryProductEdit.Params.ParamByName('price').Value := strtofloat(MaskEditPrice.Text) * 100 ;
   FDQueryProductEdit.ExecSQL;
 
   FDConnectionSQLite.Connected := False;
 
+  //Success
   showMessage('Produto editado com sucesso!');
-  closeAndRefresh();
+  closeAndRefresh(); //Refresh Grid
 end;
 
 procedure TFormEdit.ButtonExitClick(Sender: TObject);
@@ -70,7 +89,7 @@ begin
   closeAndRefresh()
 end;
 
-//Close Dialog
+//Close Dialog and refresh Grid
 class procedure TFormEdit.closeAndRefresh();
 begin
   try
@@ -80,17 +99,31 @@ begin
   end;
 end;
 
+//In OnShow Form
+procedure TFormEdit.FormCreate(Sender: TObject);
+var
+  regn: HRGN;
+begin
+  FormEdit.Borderstyle := bsNone;
+  regn := CreateRoundRectRgn(0, 0,ClientWidth,ClientHeight, 10, 10);
+  SetWindowRgn(Handle, regn, True);
+end;
+
 procedure TFormEdit.FormShow(Sender: TObject);
 begin
+  //Open Connection
   FDConnectionSQLite.Connected := True;
 
+  //Set Param and Create Cursor
   FDQuerySelect.Params.ParamByName('id').Value := Id;
   FDQuerySelect.Open;
 
+  //Set TEdits with Cursor
   EditName.Text := FDQuerySelect.FieldByName('name').Value;
   RichEditDescr.Text := FDQuerySelect.FieldByName('descr').Value;
-  MaskEditPrice.Text := (FDQuerySelect.FieldByName('price').AsInteger).ToString;
+  MaskEditPrice.Text := (FDQuerySelect.FieldByName('price').AsInteger/100).ToString;
 
+  //Close Connection
   FDConnectionSQLite.Connected := False;
 end;
 

@@ -17,8 +17,6 @@ type
     Label1: TLabel;
     ButtonPushRegister: TButton;
     FDQueryProductDelete: TFDQuery;
-    ButtonEdit: TButton;
-    ButtonDelete: TButton;
     FDConnectionSQLite: TFDConnection;
     StringGridProduct: TStringGrid;
     FDTableProducts: TFDTable;
@@ -31,11 +29,18 @@ type
     Image1: TImage;
     Label2: TLabel;
     ImageButtonExit: TImage;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Image2: TImage;
+    Label3: TLabel;
+    Image3: TImage;
+    Label4: TLabel;
     procedure ButtonPushRegisterClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ButtonEditClick(Sender: TObject);
     procedure ButtonDeleteClick(Sender: TObject);
     procedure ImageButtonExitClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
 
   private
     //Private vars
@@ -111,6 +116,15 @@ begin
   finally
     FormRegister.Release;
   end;
+end;
+
+procedure TFormList.FormCreate(Sender: TObject);
+var
+  regn: HRGN;
+begin
+  FormList.Borderstyle := bsNone;
+  regn := CreateRoundRectRgn(0, 0,ClientWidth,ClientHeight,10,10);
+  SetWindowRgn(Handle, regn, True);
 end;
 
 procedure TFormList.FormShow(Sender: TObject);

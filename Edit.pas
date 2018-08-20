@@ -49,23 +49,34 @@ implementation
 
 {$R *.dfm}
 
-uses List;
+uses List, Products;
 
 procedure TFormEdit.ButtonEditClick(Sender: TObject);
+var
+  objProducts: TProducts;
 begin
+  //instantiate class
+  objProducts := TProducts.Create;
+
+  //Set vars
+  objProducts.setId(strtoint(Id));
+  objProducts.setName(EditName.Text);
+  objProducts.setDescr(RichEditDescr.Text);
+  objProducts.setPrice(strtoint(MaskEditPrice.Text));
+
   //Check if fields is empty
-  if isEmpty(EditName.Text) then exit;
-  if isEmpty(RichEditDescr.Text) then exit;
-  if isEmpty(MaskEditPrice.Text) then exit;
+  if isEmpty(objProducts.getName()) then exit;
+  if isEmpty(objProducts.getDescr()) then exit;
+  if isEmpty(objProducts.getPrice().ToString) then exit;
 
   //Opne Connection
   FDConnectionSQLite.Connected := True;
 
   //Sett Params of Query and Execute
-  FDQueryProductEdit.Params.ParamByName('id').Value := Id;
-  FDQueryProductEdit.Params.ParamByName('name').Value := EditName.Text;
-  FDQueryProductEdit.Params.ParamByName('descr').Value := RichEditDescr.Text;
-  FDQueryProductEdit.Params.ParamByName('price').Value := strtofloat(MaskEditPrice.Text) * 100 ;
+  FDQueryProductEdit.Params.ParamByName('id').Value := objProducts.getId();
+  FDQueryProductEdit.Params.ParamByName('name').Value := objProducts.getName();
+  FDQueryProductEdit.Params.ParamByName('descr').Value := objProducts.getDescr();
+  FDQueryProductEdit.Params.ParamByName('price').Value := objProducts.getPrice() * 100 ;
   FDQueryProductEdit.ExecSQL;
 
   FDConnectionSQLite.Connected := False;

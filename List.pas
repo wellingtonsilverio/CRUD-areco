@@ -55,7 +55,7 @@ implementation
 
 {$R *.dfm}
 
-uses Register, Edit;
+uses Register, Edit, Products;
 
 procedure TFormList.ButtonDeleteClick(Sender: TObject);
 var
@@ -144,7 +144,11 @@ Var
   Button: TButton;
   R1: TRect;
   R2: TRect;
+  objProducts: TProducts;
 Begin
+  //instantiate class
+  objProducts := TProducts.Create;
+
   //Connect to DB
   FDConnectionSQLite.Connected := True;
 
@@ -162,11 +166,18 @@ Begin
   i := 1;
   while not FDTableProducts.eof do
   begin
-    StringGridProduct.cells[0, i] := FDTableProducts.FieldByName('id').AsInteger.ToString;
-    StringGridProduct.cells[1, i] := FDTableProducts.FieldByName('name').asString;
-    StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').asString;
-    StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asString;
-    StringGridProduct.cells[4, i] := FormatFloat('R$ ###,###,##0.00',FDTableProducts.FieldByName('price').AsInteger/100);
+    objProducts.setProducts(
+      FDTableProducts.FieldByName('id').AsInteger,
+      FDTableProducts.FieldByName('name').asString,
+      FDTableProducts.FieldByName('descr').asString,
+      FDTableProducts.FieldByName('stock').AsInteger,
+      FDTableProducts.FieldByName('price').AsInteger
+    );
+    StringGridProduct.cells[0, i] := objProducts.getId().ToString;
+    StringGridProduct.cells[1, i] := objProducts.getName();
+    StringGridProduct.cells[2, i] := objProducts.getDescr();
+    StringGridProduct.cells[3, i] := objProducts.getStock().ToString;
+    StringGridProduct.cells[4, i] := FormatFloat('R$ ###,###,##0.00',objProducts.getPrice()/100);
 
     FDTableProducts.next;
     i := i + 1;

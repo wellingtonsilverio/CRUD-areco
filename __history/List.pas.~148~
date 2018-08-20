@@ -17,8 +17,6 @@ type
     Label1: TLabel;
     ButtonPushRegister: TButton;
     FDQueryProductDelete: TFDQuery;
-    ButtonEdit: TButton;
-    ButtonDelete: TButton;
     FDConnectionSQLite: TFDConnection;
     StringGridProduct: TStringGrid;
     FDTableProducts: TFDTable;
@@ -31,11 +29,18 @@ type
     Image1: TImage;
     Label2: TLabel;
     ImageButtonExit: TImage;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Image2: TImage;
+    Label3: TLabel;
+    Image3: TImage;
+    Label4: TLabel;
     procedure ButtonPushRegisterClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ButtonEditClick(Sender: TObject);
     procedure ButtonDeleteClick(Sender: TObject);
     procedure ImageButtonExitClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
 
   private
     //Private vars
@@ -50,7 +55,7 @@ implementation
 
 {$R *.dfm}
 
-uses Register, Edit;
+uses Register, Edit, Products;
 
 procedure TFormList.ButtonDeleteClick(Sender: TObject);
 var
@@ -113,6 +118,15 @@ begin
   end;
 end;
 
+procedure TFormList.FormCreate(Sender: TObject);
+var
+  regn: HRGN;
+begin
+  FormList.Borderstyle := bsNone;
+  regn := CreateRoundRectRgn(0, 0,ClientWidth,ClientHeight,10,10);
+  SetWindowRgn(Handle, regn, True);
+end;
+
 procedure TFormList.FormShow(Sender: TObject);
 begin
   StringGridSetup();
@@ -130,7 +144,11 @@ Var
   Button: TButton;
   R1: TRect;
   R2: TRect;
+  objProducts: TProducts;
 Begin
+  //instantiate class
+  objProducts := TProducts.Create;
+
   //Connect to DB
   FDConnectionSQLite.Connected := True;
 
@@ -148,10 +166,17 @@ Begin
   i := 1;
   while not FDTableProducts.eof do
   begin
+    objProducts.setProducts(
+      FDTableProducts.FieldByName('id').AsInteger,
+      FDTableProducts.FieldByName('name').asString,
+      FDTableProducts.FieldByName('descr').asString,
+      FDTableProducts.FieldByName('stock').AsInteger,
+      FDTableProducts.FieldByName('price').AsInteger
+    );
     StringGridProduct.cells[0, i] := FDTableProducts.FieldByName('id').AsInteger.ToString;
     StringGridProduct.cells[1, i] := FDTableProducts.FieldByName('name').asString;
     StringGridProduct.cells[2, i] := FDTableProducts.FieldByName('descr').asString;
-    StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asString;
+    StringGridProduct.cells[3, i] := FDTableProducts.FieldByName('stock').asInteger;
     StringGridProduct.cells[4, i] := FormatFloat('R$ ###,###,##0.00',FDTableProducts.FieldByName('price').AsInteger/100);
 
     FDTableProducts.next;

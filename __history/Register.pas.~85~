@@ -59,9 +59,16 @@ end;
 procedure TFormRegister.ButtonRegisterClick(Sender: TObject);
 var
   confirmDialog : Integer;
+  objProducts: TProducts ;
 begin
+  //instantiate class
+  objProducts := TProducts.Create;
+
+  //Set vars
+  objProducts.setName(EditName.Text);
+
   //Check if fields is empty
-  if isEmpty(EditName.Text) then exit;
+  if isEmpty(objProducts.getName()) then exit;
   if isEmpty(RichEditDescr.Text) then exit;
   if isEmpty(MaskEditPrice.Text) then exit;
 

@@ -59,7 +59,9 @@ end;
 procedure TFormRegister.ButtonRegisterClick(Sender: TObject);
 var
   confirmDialog : Integer;
+  objProducts: TProducts ;
 begin
+  objProducts := TProducts.Create;
   //Check if fields is empty
   if isEmpty(EditName.Text) then exit;
   if isEmpty(RichEditDescr.Text) then exit;
@@ -132,7 +134,7 @@ procedure TFormRegister.FormCreate(Sender: TObject);
 var
   regn: HRGN;
 begin
-  FormRegister.Borderstyle := bsSingle;
+  FormRegister.Borderstyle := bsNone;
   regn := CreateRoundRectRgn(0, 0,ClientWidth,ClientHeight, 10, 10);
   SetWindowRgn(Handle, regn, True);
 end;

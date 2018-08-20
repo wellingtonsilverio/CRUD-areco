@@ -41,7 +41,7 @@ object FormRegister: TFormRegister
   object Label6: TLabel
     Left = 64
     Top = 29
-    Width = 473
+    Width = 261
     Height = 32
     Caption = 'CADASTRO DE PRODUTO'
     Font.Charset = DEFAULT_CHARSET
